@@ -8,7 +8,17 @@
 
 #ifndef MAIN_H
 #define MAIN_H
-/********************************  <   PARAMETRES  >    ********************************/
+/********************************  <   COMPILATEUR ET INCLUDE  >    ********************************/
+#ifndef VSCODE
+#ifndef CLION
+#ifndef VS_STUDIO
+#define VSCODE
+#endif
+#endif // VS_STUDIO
+#endif // CLION
+#endif // VSCODE
+
+
 #ifdef VSCODE
 #include <stdio.h>
 #include <stdbool.h>
@@ -17,11 +27,11 @@
 #include <unistd.h>
 #include <conio.h>
 #elif defined(CLION)
-
+//insert your includes here >anthony
 
 
 #elif defined(VS_STUDIO)
-
+//insert your includes here >Sijam
 
 
 
