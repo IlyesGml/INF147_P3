@@ -13,7 +13,6 @@
 #ifndef CLION
 #ifndef VS_STUDIO
 #define VSCODE
-#endif
 #endif // VS_STUDIO
 #endif // CLION
 #endif // VSCODE
