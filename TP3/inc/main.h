@@ -9,14 +9,33 @@
 #ifndef MAIN_H
 #define MAIN_H
 /********************************  <   PARAMETRES  >    ********************************/
+#ifdef VSCODE
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <conio.h>
+#elif defined(CLION)
+
+
+
+#elif defined(VS_STUDIO)
+
+
+
+
+#endif
 
 #include "userinput.h"
+#include "ocean.h"
+#include "poisson.h"
+#include "requin.h"
+#include "animal.h"
+#include "liste.h"
+#include "util.h"
+#include "utilitaire_affichage.h"
+#include "winBGIm.h"
 
 int main();
 int main_init(void);
