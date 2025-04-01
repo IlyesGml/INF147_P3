@@ -1,0 +1,14 @@
+[
+{
+  "directory": "F:/School_or_internship_BAC/Session2/INF147/P3/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe  @CMakeFiles/TP3.dir/includes_C.rsp -g -o CMakeFiles\\TP3.dir\\src\\main.c.obj -c F:\\School_or_internship_BAC\\Session2\\INF147\\P3\\TP3\\src\\main.c",
+  "file": "F:/School_or_internship_BAC/Session2/INF147/P3/TP3/src/main.c",
+  "output": "CMakeFiles/TP3.dir/src/main.c.obj"
+},
+{
+  "directory": "F:/School_or_internship_BAC/Session2/INF147/P3/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe  @CMakeFiles/TP3.dir/includes_C.rsp -g -o CMakeFiles\\TP3.dir\\src\\userinput.c.obj -c F:\\School_or_internship_BAC\\Session2\\INF147\\P3\\TP3\\src\\userinput.c",
+  "file": "F:/School_or_internship_BAC/Session2/INF147/P3/TP3/src/userinput.c",
+  "output": "CMakeFiles/TP3.dir/src/userinput.c.obj"
+}
+]
