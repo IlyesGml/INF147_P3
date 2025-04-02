@@ -2,20 +2,18 @@
 /* UTIL.CPP   Librairie de fonctions utilitaires.                     */
 /**********************************************************************/
 
-#include"util.h"
-#include<stdlib.h>
-#include<time.h>
+#include "main.h"
 
 /**********************************************************************/
-/* Générer une valeur aléatoire entière.                              */
+/* Gï¿½nï¿½rer une valeur alï¿½atoire entiï¿½re.                              */
 /**********************************************************************/
 
-/* Fonction pour initialiser le générateur aléatoire. */
+/* Fonction pour initialiser le gï¿½nï¿½rateur alï¿½atoire. */
 void init_alea(){
   srand(time(NULL));
 }
 
-/* Fonction aléatoire qui renvoie un entier inclu entre [min..max]. */
+/* Fonction alï¿½atoire qui renvoie un entier inclu entre [min..max]. */
 int  alea(int min, int max){
   return (int)((1.0 * rand()) / (RAND_MAX + 1) * (max-min+1)) + min;
 }
