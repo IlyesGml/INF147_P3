@@ -47,10 +47,7 @@ typedef struct {
 } t_animal;
 */
 //====== STRUCTURE DEFINITION ===//
-typedef struct {
-    t_animal Poisson; // Attributs de l'animal
-    int nb_poisson; // Nombre de poissons dans la liste
-} t_liste_poisson;
+typedef t_liste t_liste_poisson;
 //====== PROTOTYPES ===//
 /**
  * @brief Initialise la liste des poissons.
@@ -59,7 +56,7 @@ typedef struct {
  * 
  * @param poisson Pointeur vers la liste des poissons à initialiser.
  */
-void init_poisson(t_liste_poisson* poisson);
+void init_poisson(t_liste_poisson* poisson, int quantite);
 /**
  * @brief Déplace un poisson dans l'océan.
  * 

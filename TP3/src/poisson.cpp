@@ -4,7 +4,7 @@
 //
 #include "main.h"
 
-void init_poisson(t_liste_poisson* poisson)
+void init_poisson(t_liste_poisson* poisson, int quantite)
 {
 
 }

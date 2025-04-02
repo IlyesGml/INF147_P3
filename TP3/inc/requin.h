@@ -41,11 +41,7 @@ typedef struct {
 } t_animal;
 */
 //====== STRUCTURE DEFINITION ===//
-typedef struct{
-    t_animal Requin;
-    int nb_requin; //nombre de requins dans la liste
-} t_liste_requin;
-
+typedef t_liste t_liste_requin;
 //====== PROTOTYPES DES FONCTIONS ===//
 /**
  * @brief Initialise la liste des requins.

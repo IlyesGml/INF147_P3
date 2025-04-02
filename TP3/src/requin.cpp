@@ -3,7 +3,6 @@
 // // mplementation des fonctions pour la gestion des requins dans l'océan
 //
 #include "main.h"
-#include "requin.h"
 
 
 void init_requin(t_liste_requin* requin)

@@ -1,13 +1,13 @@
 /**********************************************************************/
 /* UTIL.H   Librairie de fonctions utilitaires.                       */
 /**********************************************************************/
-#if !defined UTIL
+#ifndef UTIL
 #define UTIL 1
 
 void init_alea();
-/* Fonction pour initialiser le générateur aléatoire. */
+/* Fonction pour initialiser le gï¿½nï¿½rateur alï¿½atoire. */
 
 int  alea(int min, int max);
-/* Fonction aléatoire qui renvoie un entier inclu entre [min..max]. */
+/* Fonction alï¿½atoire qui renvoie un entier inclu entre [min..max]. */
 
 #endif
