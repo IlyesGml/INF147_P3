@@ -25,7 +25,7 @@ int inserer(t_liste* l, t_animal valeur, int position) {
 // Suppression d'un �l�ment � une position donn�e
 int supprimer(t_liste* l, int position) {
     if (position < 0 || position >= l->taille) {
-        printf("Erreur : Position invalide.\n");
+        printf("Erreur : Position invalide: %d\n", position);
         return 0;
     }
 
