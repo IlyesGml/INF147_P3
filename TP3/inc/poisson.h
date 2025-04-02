@@ -47,6 +47,11 @@ typedef struct {
 } t_animal;
 */
 //====== STRUCTURE DEFINITION ===//
+/** 
+ * @brief Structure représentant un poisson.
+ * Cette structure représente un poisson dans l'océan, avec ses attributs tels que l'âge, la gestation,
+ * l'énergie, et sa position dans l'océan.
+ */
 typedef t_liste t_liste_poisson;
 //====== PROTOTYPES ===//
 /**
