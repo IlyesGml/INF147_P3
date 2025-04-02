@@ -22,22 +22,22 @@ int main_debug()
 #ifdef TEST_INIT_POISSON
     t_liste poisson;
     init_poisson(&poisson, 25); // Initialisation de 25 poissons
-    printf("Liste des poissons :\n");
-
-    printf("Taille de la liste : %d\n", poisson.taille);
-    for (int i = 20; i = 0; i--)
-        supprimer(&poisson, i); // Suppression de 20 poisson
-
+    printf("Taille de la liste avant suppression : %d\n", poisson.taille);
+    for (int i = 19; i >= 0; i--)
+    {
+        supprimer(&poisson, i); // Suppression de 20 poissons
+        printf("Taille de la liste durant suppression : %d\n", poisson.taille);
+    }
     printf("Liste des poissons après suppression :\n");
     for (int i = 0; i < poisson.taille; i++)
     {
         printf("Poisson %d : Age = %d, Energie = %d, Position = (%d, %d)\n",
-            i, poisson.animal[i].age, poisson.animal[i].energie_sante,
-            poisson.animal[i].posx, poisson.animal[i].posy);
+               i, poisson.animal[i].age, poisson.animal[i].energie_sante,
+               poisson.animal[i].posx, poisson.animal[i].posy);
     }
     printf("Taille de la liste : %d\n", poisson.taille);
 #endif
-system("pause"); // Pause pour voir les résultats   
+    system("pause"); // Pause pour voir les résultats
     return 0;
 }
 int main_init(void)
