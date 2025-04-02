@@ -71,7 +71,7 @@ void init_poisson(t_liste_poisson* poisson, int quantite);
  * @param position Position du poisson à déplacer.
  * @param x Nouvelle position x du poisson.
  * @param y Nouvelle position y du poisson.
- */
+ */ 
 void deplacement_poisson(t_liste_poisson* poisson, int position, int x, int y);
 /**
  * @brief Ajoute un nouveau poisson à la liste.

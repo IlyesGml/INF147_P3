@@ -36,7 +36,7 @@ int main_debug()
     printf("Taille de la liste : %d\n", poisson.taille);
     #endif
     return 0;
-}
+} 
 int main_init(void)
 {
     init_alea();

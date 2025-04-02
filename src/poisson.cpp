@@ -37,5 +37,5 @@ void nouveau_poisson(t_liste_poisson* poisson, t_animal* nouveau_poisson, int po
 }
 void mort_poisson(t_liste_poisson* poisson, int position)
 {
-
+ 
 }
