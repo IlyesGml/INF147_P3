@@ -16,7 +16,9 @@ typedef enum {
     FLECHE_GAUCHE,
     FLECHE_BAS,
     FLECHE_DROITE,
-    TOUCHE_ESC
+    TOUCHE_ESC,
+    TOUCHE_Y,
+    TOUCHE_N
 } Une_Direction;
 
 #endif // USERINPUT_H

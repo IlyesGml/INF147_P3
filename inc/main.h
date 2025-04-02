@@ -36,13 +36,15 @@
 #include "userinput.h"
 #include "util.h"
 
+#include "ocean.h"
+
 #include "animal.h"
 #include "liste.h"
 
 #include "poisson.h"
 #include "requin.h"
 
-#include "ocean.h"
+
 
 #include "utilitaire_affichage.h"
 #include "winBGIm.h"

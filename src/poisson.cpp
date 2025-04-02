@@ -8,9 +8,10 @@ void init_poisson(t_liste_poisson* poisson, int quantite)
 {
     printf("Initialisation de la liste des poissons...\n");
     init_liste(poisson);
-    poisson->animal->jrs_gest = 0;
+    
     for (int i = 0; i < quantite; i++)
     {
+        poisson->animal[i].jrs_gest = 0;
         poisson->animal[i].age = alea(0, MAX_AGE_POISSON);
         poisson->animal[i].energie_sante = alea(0, ENERGIE_DIGESTION);
         poisson->animal[i].posx = alea(0, LARGEUR);
@@ -30,7 +31,7 @@ void init_poisson(t_liste_poisson* poisson, int quantite)
         }
     }
 }
-void deplacement_poisson(t_liste_poisson* poisson, int position, int x, int y)
+void deplacement_poisson(t_liste_poisson* poisson, int position)
 {
 
 }
@@ -40,5 +41,5 @@ void nouveau_poisson(t_liste_poisson* poisson, t_animal* nouveau_poisson, int po
 }
 void mort_poisson(t_liste_poisson* poisson, int position)
 {
- 
+    supprimer(poisson, position);
 }
