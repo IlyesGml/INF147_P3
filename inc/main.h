@@ -2,7 +2,7 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-01 22:23:37
+ * @ Modified time: 2025-04-01 22:56:59
  * @ Description: idk
  */
 
@@ -47,7 +47,7 @@
 #include "utilitaire_affichage.h"
 #include "winBGIm.h"
 
-int main();
+//int main();
 int main_init(void);
 /***********************  <   VERSION  >    ********************************/
 #define DEBUG
