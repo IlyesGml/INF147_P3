@@ -5,10 +5,7 @@
 /*                                                                            */
 /*  Conception : Pierre Bélisle, Eric Thé                                     */
 /******************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "utilitaire_affichage.h"
+#include "main.h"
 
 //La longueur des côtés des cases en pixel
 #define TAILLE_CASE_X 10  

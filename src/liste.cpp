@@ -1,4 +1,4 @@
-#include "liste.h"
+#include "main.h"
 
 // Initialisation de la liste vide
 void init_liste(t_liste* l) {

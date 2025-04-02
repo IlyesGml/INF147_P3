@@ -2,24 +2,23 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-01 21:40:34
+ * @ Modified time: 2025-04-01 22:23:37
  * @ Description: idk
  */
 
 #ifndef MAIN_H
 #define MAIN_H
 /********************************  <   COMPILATEUR ET INCLUDE  >    ********************************/
-#ifndef VSCODE
-#ifndef CLION
-#ifndef VS_STUDIO
+#if !defined(VSCODE) && !defined(CLION) && !defined(VS_STUDIO)
 #define VSCODE
-#endif // VS_STUDIO
-#endif // CLION
-#endif // VSCODE
+#endif
+
+
 
 
 #ifdef VSCODE
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
 #include <time.h>
 #include <stdlib.h>
@@ -32,6 +31,7 @@
 #elif defined(VS_STUDIO)
 //insert your includes here >Sijam
 
+#include <string.h>
 #endif
 #include "userinput.h"
 #include "util.h"
