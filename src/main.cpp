@@ -25,8 +25,13 @@ int main_debug()
     printf("Taille de la liste avant suppression : %d\n", poisson.taille);
     for (int i = 19; i >= 0; i--)
     {
-        supprimer(&poisson, i); // Suppression de 20 poissons
-        printf("Taille de la liste durant suppression : %d\n", poisson.taille);
+        int alea_value = alea(0, poisson.taille - 1);
+        printf("Suppression du poisson %d...\n", alea_value);
+        printf("Poisson %d : Age = %d, Energie = %d, Position = (%d, %d)\n",
+            alea_value, poisson.animal[alea_value].age, poisson.animal[alea_value].energie_sante,
+               poisson.animal[alea_value].posx, poisson.animal[alea_value].posy);
+        supprimer(&poisson, alea(0, poisson.taille)); // Suppression de 20 poisons aleatoires
+        printf("Taille de la liste durant suppression : %d\n\n", poisson.taille);
     }
     printf("Liste des poissons après suppression :\n");
     for (int i = 0; i < poisson.taille; i++)
@@ -35,7 +40,7 @@ int main_debug()
                i, poisson.animal[i].age, poisson.animal[i].energie_sante,
                poisson.animal[i].posx, poisson.animal[i].posy);
     }
-    printf("Taille de la liste : %d\n", poisson.taille);
+    printf("\nTaille de la liste : %d\n", poisson.taille);
 #endif
     system("pause"); // Pause pour voir les résultats
     return 0;

@@ -21,6 +21,12 @@ int SaisieDirection()
     if (touche == 27) { // Touche Échap
         return TOUCHE_ESC;
     }
+    if (touche == 'y' || touche == 'Y') { // Touche Y
+        return TOUCHE_Y;
+    }
+    if (touche == 'n' || touche == 'N') { // Touche N
+        return TOUCHE_N;
+    }
     if (touche == 0 || touche == 224) { // les touches fléchées ont deux parties
         switch (_getch()) {
             case 72:

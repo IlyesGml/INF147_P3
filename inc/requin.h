@@ -61,7 +61,7 @@ void init_requin(t_liste_requin* requin);
  * @param x Nouvelle coordonnée x du requin.
  * @param y Nouvelle coordonnée y du requin.
  */
-void deplacement_requin(t_liste_requin* requin, int position, int x, int y);
+void deplacement_requin(t_liste_requin* requin, int position,t_direction);
 /**
  * @brief Ajoute un nouveau requin à la liste.
  *
