@@ -3,6 +3,7 @@
     "files.associations": {
         "plaque.h": "c",
         "pile.h": "c",
-        "liste.h": "c"
+        "liste.h": "c",
+        "main.h": "c"
     }
 }
