@@ -35,7 +35,7 @@ void init_requin(t_liste_requin *requin, int quantite)
     }
 }
 
-void deplacement_requin(t_liste_requin *requin, int position, t_direction direction)
+void deplacement_requin(t_liste_requin *requin, int position, t_direction direction, t_ocean *ocean)
 {
     int x, y;
     get_position(&requin->animal[position], &x, &y);
@@ -47,6 +47,7 @@ void deplacement_requin(t_liste_requin *requin, int position, t_direction direct
         #endif
         return;
     }
+    // verification dans l'ocean si  le deplacement est possible dans chaque case vvvv
     switch (direction)
     {
     case HAUT:
