@@ -6,6 +6,7 @@
 
 void init_poisson(t_liste_poisson* poisson, int quantite)
 {
+    /*
     printf("Initialisation de la liste des poissons...\n");
     init_liste(poisson);
     
@@ -30,6 +31,7 @@ void init_poisson(t_liste_poisson* poisson, int quantite)
             printf("Erreur lors de l'initialisation du poisson %d.\n", i);
         }
     }
+        */
 }
 void deplacement_poisson(t_liste_poisson* poisson, int position)
 {
@@ -41,5 +43,5 @@ void nouveau_poisson(t_liste_poisson* poisson, t_animal* nouveau_poisson, int po
 }
 void mort_poisson(t_liste_poisson* poisson, int position)
 {
-    supprimer(poisson, position);
+   // supprimer(poisson, position);
 }

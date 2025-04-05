@@ -7,6 +7,15 @@
 #define LIB_ANIMAL 1
 
 /* Type-structure pour un animal */
+/**
+ * @brief characteristique d'un animal dans l'océan.
+ * @param posx Position x de l'animal dans l'océan.
+ * @param posy Position y de l'animal dans l'océan.
+ * @param age Age de l'animal en jours.
+ * @param energie_sante Niveau d'énergie de l'animal.
+ * @param jrs_gest Nombre de jours de gestation de l'animal.
+ * 
+ */
 typedef struct{
   int   posx, posy;     //sa position
   int   age;            //son age (en jours)

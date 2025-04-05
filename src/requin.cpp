@@ -3,7 +3,7 @@
 // // implementation des fonctions pour la gestion des requins dans l'océan
 //
 #include "main.h"
-
+/*
 void init_requin(t_liste_requin *requin, int quantite)
 {
     printf("Initialisation de la liste des requins...\n");
@@ -86,6 +86,19 @@ void deplacement_requin(t_liste_requin *requin, int position, t_direction direct
 
 void nouveau_requin(t_liste_requin *requin, t_animal *nouveau_requin, int positionParent)
 {
+    int x, y;
+    get_position(&requin->animal[positionParent], &x, &y);
+    // Vérification des limites de l'océan
+    if (x < 0 || x >= LARGEUR || y < 0 || y >= HAUTEUR)
+    {
+        #ifdef DEBUG
+        printf("Erreur : position invalide pour le requin.\n");
+        #endif
+        return;
+    }
+    // verification dans l'ocean si  le deplacement est possible dans chaque case vvvv
+    set_position(nouveau_requin, x, y);
+    inserer(requin, *nouveau_requin, requin->taille);
 
 }
 void mort_requin(t_liste_requin *requin, int position)
@@ -103,4 +116,4 @@ void mort_requin(t_liste_requin *requin, int position)
     #else
     }
     #endif
-}
+}*/
