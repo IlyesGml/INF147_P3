@@ -20,11 +20,15 @@ int main_debug()
     }
 #endif
 #ifdef TEST_INIT_POISSON
+printf("Test d'initialisation de la liste des poissons :\n");
+t_liste_poisson* liste_poisson = NULL; //creation d'une liste
+    int quantite = alea(1,MAX_POISSON);
+    init_poisson(liste_poisson, quantite); // Initialisation de la liste des poissons
 
 #endif
 #ifdef TEST_LISTE
     printf("Test Liste\n\n");
-    t_noeud* liste = NULL; // création d'une liste vide
+    t_liste* liste = NULL; // création d'une liste vide
 
     t_animal poisson = { 0, 0, 0, 0, 0 }; // Initialisation d'un poisson
     t_animal requin = { 1, 1, 1, 1, 1 }; // Initialisation d'un autre poisson
@@ -98,7 +102,7 @@ int main_init(void)
 #elif TP3
 int main_init(void)
 {
-    srand(time(NULL));
+    init_alea();
     return 0;
 }
 #endif
