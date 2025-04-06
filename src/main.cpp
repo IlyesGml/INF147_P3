@@ -40,44 +40,44 @@ int main_debug()
     printf("Crab     : Age = %d, Energie = %d, Position = (%d, %d)\n",
         crab.age, crab.energie_sante, crab.posx, crab.posy);
 
-    t_noeud* noeud3 = insererEnTete(&liste, poisson); // Insertion du premier poisson
-    printf("\nadresse du poisson : %p\n", &noeud3);
+    t_noeud* noeud1 = insererEnTete(&liste, poisson); // Insertion du premier poisson
+    printf("\nadresse du poisson : %p\n", &noeud1);
     t_noeud* noeud2 = insererEnTete(&liste, requin); // Insertion du deuxième poisson
     printf("\nadresse du requin : %p\n", &noeud2);
-    t_noeud* noeud1 = insererEnTete(&liste, starfish); // Insertion du troisième poisson
-    printf("\nadresse de l'étoile de mer : %p\n\n", &noeud1);
+    t_noeud* noeud3 = insererEnTete(&liste, starfish); // Insertion du troisième poisson
+    printf("\nadresse de l'étoile de mer : %p\n\n", &noeud3);
     t_noeud* noeud4 = insererEnTete(&liste, crab); // Insertion du quatrième poisson
     printf("\nadresse du crabe : %p\n\n", &noeud4);
 
     afficherListe(liste); // Affichage de la liste
 
     printf("Suppression d'un valeur random de la liste...\n");
-    switch (2) // Suppression d'un poisson aléatoire
+    switch (alea(0,3)) // Suppression d'un poisson aléatoire
     {
     case 0:
-        printf("Suivant du poisson : %p\n", &noeud1->suivant);
-        printf("Précédent du poisson : %p\n", &noeud1->precedent);
-        supprimerAnimal(noeud1); // Suppression du poisson
+        printf("Suivant du poisson : %p\n", &noeud4->suivant);
+        printf("Précédent du poisson : %p\n", &noeud4->precedent);
+        supprimerAnimal(&liste,noeud4); // Suppression du poisson
         printf("Suppression du poisson :\n");
         break;
 
     case 1:
-        printf("Suivant du requin : %p\n", &noeud2->suivant);
-        printf("Précédent du requin : %p\n", &noeud2->precedent);
-        supprimerAnimal(noeud2); // Suppression du requin
+        printf("Suivant du requin : %p\n", &noeud3->suivant);
+        printf("Précédent du requin : %p\n", &noeud3->precedent);
+        supprimerAnimal(&liste,noeud3); // Suppression du requin
         printf("Suppression du requin :\n");
         break;
 
     case 2:
-        printf("Suivant de l'étoile de mer : %p\n", &noeud1->suivant);
-        printf("Précédent de l'étoile de mer : %p\n", &noeud1->precedent);
-        supprimerAnimal(noeud1); // Suppression de l'étoile de mer
+        printf("Suivant de l'étoile de mer : %p\n", &noeud2->suivant);
+        printf("Précédent de l'étoile de mer : %p\n", &noeud2->precedent);
+        supprimerAnimal(&liste,noeud2); // Suppression de l'étoile de mer
         printf("Suppression de l'étoile de mer :\n");
         break;
     case 3:
-        printf("Suivant du crabe : %p\n", &noeud4->suivant);
-        printf("Précédent du crabe : %p\n", &noeud4->precedent);
-        supprimerAnimal(noeud4); // Suppression du crabe
+        printf("Suivant du crabe : %p\n", &noeud1->suivant);
+        printf("Précédent du crabe : %p\n", &noeud1->precedent);
+        supprimerAnimal(&liste,noeud1); // Suppression du crabe
         printf("Suppression du crabe :\n");
         break;
     default:

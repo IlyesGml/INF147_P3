@@ -39,9 +39,9 @@ t_noeud* insererEnTete(t_liste** tete, t_animal animal)
     if (*tete == NULL)
     {
         *tete = nouveau_noeud;
-        #ifdef DEBUG
+#ifdef DEBUG
         printf("Liste vide, Tete: %p\n", tete);
-        #endif
+#endif
         return nouveau_noeud;
     }
     else
@@ -74,23 +74,42 @@ void supprimerEnTete(t_liste** liste)
     }
 }
 
-void supprimerAnimal(t_noeud* animal_to_kill)
+void supprimerAnimal(t_noeud** tete, t_noeud* animal_to_kill)
 {
-    if (animal_to_kill == NULL)
+    if (animal_to_kill == NULL || *tete == NULL)
     {
+#ifdef DEBUG
         printf("Erreur : le noeud à supprimer est NULL.\n");
+#endif
         return;
     }
-    if ((animal_to_kill->precedent == NULL) && (animal_to_kill->suivant == NULL))
+    if ((*tete) == animal_to_kill)
     {
-        printf("Erreur : le noeud à supprimer est le premier ou le dernier.\n");
+#ifdef DEBUG
+        printf("Noeud à supprimer est le premier de la liste.\n");
+#endif
+        (*tete) = animal_to_kill->suivant;
+        animal_to_kill->suivant->precedent = NULL;
+        free(animal_to_kill);
         return;
+    }
+    if (animal_to_kill->suivant == NULL)
+    {
+#ifdef DEBUG
+        printf("Noeud à supprimer est le dernier dans la liste.\n");
+#endif
+        t_noeud* pre_noeud = animal_to_kill->precedent;
+        pre_noeud->suivant = NULL;
+    }
+    else
+    {
+        t_noeud* pre_noeud = animal_to_kill->precedent;
+        t_noeud* next_noeud = animal_to_kill->suivant;
+        pre_noeud->suivant = animal_to_kill->suivant;
+        next_noeud->precedent = animal_to_kill->precedent;
     }
 
-    t_noeud* pre_noeud = animal_to_kill->precedent;
-    t_noeud* next_noeud = animal_to_kill->suivant;
-    pre_noeud->suivant = animal_to_kill->suivant;
-    next_noeud->precedent = animal_to_kill->precedent;
+
     free(animal_to_kill);
 }
 
@@ -108,11 +127,9 @@ void libererListe(t_liste* liste)
 void afficherListe(t_liste* liste)
 {
     t_noeud* courant = liste;
-    int i;
-    while (courant != NULL)
+    for (int i = 0; courant != NULL; i++)
     {
-        i++;
-        printf("Animal %c : Age = %d, Energie = %d, Position = (%d, %d)\n",i,
+        printf("Animal %d : Age = %d, Energie = %d, Position = (%d, %d)\n", i,
             courant->animal.age, courant->animal.energie_sante,
             courant->animal.posx, courant->animal.posy);
         courant = courant->suivant;

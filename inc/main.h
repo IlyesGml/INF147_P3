@@ -2,7 +2,7 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-05 17:22:11
+ * @ Modified time: 2025-04-06 19:11:48
  * @ Description: idk
  */
 
@@ -61,8 +61,7 @@ int main_init(void);
 #ifdef DEBUG
 /****************************  <   DEBUG  >    ************************************/
 int main_debug(void); // fonction de test en mode débogage
-void test_list(t_noeud*& liste);
-//#define TESTRANDOM
+#define TESTRANDOM
 //#define TEST_INIT_POISSON // Test de la fonction d'initialisation des poissons
 #define TEST_LISTE
 #endif

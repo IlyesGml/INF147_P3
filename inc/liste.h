@@ -26,7 +26,7 @@ typedef struct t_noeud {
 t_noeud* creer_noeud(t_animal animal);
 t_noeud* insererEnTete(t_liste** liste, t_animal animal);
 void supprimerEnTete(t_liste** liste);
-void supprimerAnimal(t_noeud* animal_to_kill);
+void supprimerAnimal(t_noeud** tete ,t_noeud* animal_to_kill);
 void libererListe(t_liste* liste);
 void afficherListe(t_liste* liste);
 
