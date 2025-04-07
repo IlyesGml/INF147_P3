@@ -23,7 +23,7 @@ int main_debug()
 printf("Test d'initialisation de la liste des poissons :\n");
 t_liste_poisson* liste_poisson = NULL; //creation d'une liste
     int quantite = alea(1,MAX_POISSON);
-    init_poisson(liste_poisson, quantite); // Initialisation de la liste des poissons
+    init_poisson(liste_poisson,*t_ocean,quantite); // Initialisation de la liste des poissons
 
 #endif
 #ifdef TEST_LISTE

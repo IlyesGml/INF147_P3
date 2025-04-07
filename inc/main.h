@@ -2,7 +2,7 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-06 19:20:37
+ * @ Modified time: 2025-04-06 19:53:59
  * @ Description: idk
  */
 
@@ -12,9 +12,6 @@
 #if !defined(VSCODE) && !defined(CLION) && !defined(VS_STUDIO)
 #define VSCODE
 #endif
-
-
-
 
 #ifdef VSCODE
 #include <stdio.h>
@@ -26,7 +23,10 @@
 #include <conio.h>
 #elif defined(CLION)
 //insert your includes here >anthony
-
+#include <windows.h>
+#include "../inc/ocean.h"
+#include "../inc/util.h"
+#include "../inc/utilitaire_affichage.h"
 
 #elif defined(VS_STUDIO)
 //insert your includes here >Sijam
