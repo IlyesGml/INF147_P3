@@ -4,7 +4,7 @@
 //
 #include "main.h"
 
-void init_poisson(t_liste_poisson* poisson, int quantite)
+void init_poisson(t_liste_poisson* poisson, t_case *ocean, int quantite)
 {
     t_noeud* noeud_temp = NULL;
     /*
@@ -55,15 +55,15 @@ void init_poisson(t_liste_poisson* poisson, int quantite)
         }
     }
 }
-void deplacement_poisson(t_liste_poisson* poisson, int position)
+void deplacement_poisson(t_liste_poisson* poisson,t_case *ocean, int position)
 {
 
 }
-void nouveau_poisson(t_liste_poisson* poisson, t_animal* nouveau_poisson, int position)
+void nouveau_poisson(t_liste_poisson* poisson, t_animal* nouveau_poisson, t_case *ocean, int position)
 {
 
 }
-void mort_poisson(t_liste_poisson* poisson, int position)
+void mort_poisson(t_liste_poisson* poisson, t_case *ocean, int position)
 {
    // supprimer(poisson, position);
 }
