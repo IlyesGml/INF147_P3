@@ -23,12 +23,12 @@ int main_debug()
 printf("Test d'initialisation de la liste des poissons :\n");
 t_liste_poisson* liste_poisson = NULL; //creation d'une liste
     int quantite = alea(1,MAX_POISSON);
-    init_poisson(liste_poisson,*t_ocean,quantite); // Initialisation de la liste des poissons
+   // init_poisson(liste_poisson,*t_ocean,quantite); // Initialisation de la liste des poissons
 
 #endif
 #ifdef TEST_LISTE
     printf("Test Liste\n\n");
-    t_liste* liste = NULL; // crÃ©ation d'une liste vide
+    t_liste* liste = NULL; // création d'une liste vide
 
     t_animal poisson = { 0, 0, 0, 0, 0 }; // Initialisation d'un poisson
     t_animal requin = { 1, 1, 1, 1, 1 }; // Initialisation d'un autre poisson
@@ -46,52 +46,52 @@ t_liste_poisson* liste_poisson = NULL; //creation d'une liste
 
     t_noeud* noeud1 = insererEnTete(&liste, poisson); // Insertion du premier poisson
     printf("\nadresse du poisson : %p\n", &noeud1);
-    t_noeud* noeud2 = insererEnTete(&liste, requin); // Insertion du deuxiÃ¨me poisson
+    t_noeud* noeud2 = insererEnTete(&liste, requin); // Insertion du deuxième poisson
     printf("\nadresse du requin : %p\n", &noeud2);
-    t_noeud* noeud3 = insererEnTete(&liste, starfish); // Insertion du troisiÃ¨me poisson
-    printf("\nadresse de l'Ã©toile de mer : %p\n\n", &noeud3);
-    t_noeud* noeud4 = insererEnTete(&liste, crab); // Insertion du quatriÃ¨me poisson
+    t_noeud* noeud3 = insererEnTete(&liste, starfish); // Insertion du troisième poisson
+    printf("\nadresse de l'étoile de mer : %p\n\n", &noeud3);
+    t_noeud* noeud4 = insererEnTete(&liste, crab); // Insertion du quatrième poisson
     printf("\nadresse du crabe : %p\n\n", &noeud4);
 
     afficherListe(liste); // Affichage de la liste
 
     printf("Suppression d'un valeur random de la liste...\n");
-    switch (alea(0,3)) // Suppression d'un poisson alÃ©atoire
+    switch (alea(0,3)) // Suppression d'un poisson aléatoire
     {
     case 0:
         printf("Suivant du poisson : %p\n", &noeud4->suivant);
-        printf("PrÃ©cÃ©dent du poisson : %p\n", &noeud4->precedent);
+        printf("Précédent du poisson : %p\n", &noeud4->precedent);
         supprimerAnimal(&liste,noeud4); // Suppression du poisson
         printf("Suppression du poisson :\n");
         break;
 
     case 1:
         printf("Suivant du requin : %p\n", &noeud3->suivant);
-        printf("PrÃ©cÃ©dent du requin : %p\n", &noeud3->precedent);
+        printf("Précédent du requin : %p\n", &noeud3->precedent);
         supprimerAnimal(&liste,noeud3); // Suppression du requin
         printf("Suppression du requin :\n");
         break;
 
     case 2:
-        printf("Suivant de l'Ã©toile de mer : %p\n", &noeud2->suivant);
-        printf("PrÃ©cÃ©dent de l'Ã©toile de mer : %p\n", &noeud2->precedent);
-        supprimerAnimal(&liste,noeud2); // Suppression de l'Ã©toile de mer
-        printf("Suppression de l'Ã©toile de mer :\n");
+        printf("Suivant de l'étoile de mer : %p\n", &noeud2->suivant);
+        printf("Précédent de l'étoile de mer : %p\n", &noeud2->precedent);
+        supprimerAnimal(&liste,noeud2); // Suppression de l'étoile de mer
+        printf("Suppression de l'étoile de mer :\n");
         break;
     case 3:
         printf("Suivant du crabe : %p\n", &noeud1->suivant);
-        printf("PrÃ©cÃ©dent du crabe : %p\n", &noeud1->precedent);
+        printf("Précédent du crabe : %p\n", &noeud1->precedent);
         supprimerAnimal(&liste,noeud1); // Suppression du crabe
         printf("Suppression du crabe :\n");
         break;
     default:
         break;
     }
-    printf("Liste aprÃ¨s suppression :\n");
-    afficherListe(liste); // Affichage de la liste aprÃ¨s suppression
-    libererListe(liste); // LibÃ©ration de la mÃ©moire de la liste
+    printf("Liste après suppression :\n");
+    afficherListe(liste); // Affichage de la liste après suppression
+    libererListe(liste); // Libération de la mémoire de la liste
 #endif
-    system("pause"); // Pause pour voir les rÃ©sultats
+    system("pause"); // Pause pour voir les résultats
     return 0;
 }
 int main_init(void)

@@ -4,7 +4,7 @@
 /*  Conception : Eric Th�                                                     */
 /******************************************************************************/
 #ifndef LIB_ANIMAL
-#define LIB_ANIMAL 1
+#define LIB_ANIMAL 
 
 /* Type-structure pour un animal */
 /**

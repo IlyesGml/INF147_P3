@@ -22,14 +22,14 @@
 #include <unistd.h>
 #include <conio.h>
 #elif defined(CLION)
-//insert your includes here >anthony
+// insert your includes here >anthony
 #include <windows.h>
 #include "../inc/ocean.h"
 #include "../inc/util.h"
 #include "../inc/utilitaire_affichage.h"
 
 #elif defined(VS_STUDIO)
-//insert your includes here >Sijam
+// insert your includes here >Sijam
 
 #include <string.h>
 #endif
@@ -44,12 +44,10 @@
 #include "poisson.h"
 #include "requin.h"
 
-
-
 #include "utilitaire_affichage.h"
 #include "winBGIm.h"
 
-//int main();
+// int main();
 int main_init(void);
 /***********************  <   VERSION  >    ********************************/
 #define DEBUG
@@ -61,9 +59,9 @@ int main_init(void);
 #ifdef DEBUG
 /****************************  <   DEBUG  >    ************************************/
 int main_debug(void); // fonction de test en mode débogage
-//#define TESTRANDOM
+// #define TESTRANDOM
 #define TEST_INIT_POISSON // Test de la fonction d'initialisation des poissons
-//#define TEST_LISTE
+// #define TEST_LISTE
 #endif
 
 #endif
