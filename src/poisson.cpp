@@ -4,11 +4,26 @@
 //
 #include "main.h"
 
-void init_poisson(t_liste_poisson* poisson, t_case *ocean, int quantite)
+void init_poisson(t_liste_poisson* poisson, t_ocean *ocean, int quantite)
 {
     t_noeud* noeud_temp = NULL;
-    /*
     printf("Initialisation de la liste des poissons...\n");
+    t_ocean temp_ocean;
+    t_animal temp_animal;
+
+    for (int i = 0; i < quantite; i++)
+    {
+        temp_animal.age = alea(0, MAX_AGE_POISSON);
+        temp_animal.energie_sante = alea(0, ENERGIE_INIT_POISSON);
+
+        temp_animal.posx = alea(0, LARGEUR);
+        temp_animal.posy = alea(0, HAUTEUR);
+
+
+    }
+    
+
+    /*
     init_liste(poisson);
     
     for (int i = 0; i < quantite; i++)
