@@ -61,6 +61,7 @@ typedef t_liste t_liste_poisson;
  * 
  * @param poisson Pointeur vers la liste des poissons à initialiser.
  */
+
 int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quantite);
 /**
  * @brief Déplace un poisson dans l'océan.

@@ -19,7 +19,7 @@ typedef struct {
     t_contenu contenu; //Soit: VIDE, POISSON ou REQUIN
     void *animal; //Pointeur générique à un animal à cette case, sinon NULL
 } t_case;
-
+#define MAX_ESSAIS LARGEUR*HAUTEUR
 /* Type-tableau de la grille de l'océan (taille : 60 X 120) */
 typedef t_case t_ocean[HAUTEUR][LARGEUR];
 
