@@ -2,7 +2,7 @@
  * @file main.c
  * @brief
  * @ Modified by: Your name
- * @ Modified time: 2025-04-09 22:01:52
+ * @ Modified time: 2025-04-10 15:01:19
  */
 
 #include "main.h"
@@ -126,9 +126,6 @@ int main_debug()
     t_liste_poisson *liste_poisson = NULL;
     int temps = 0;
 
-    // Initialize graphics
-    init_graphe(HAUTEUR, LARGEUR);
-    init_zone_environnement(HAUTEUR, LARGEUR);
 
     // Test 1: Small quantity (10 fish)
     printf("\n--- Test 1: Petite quantite (10 poissons) ---\n");
@@ -178,11 +175,6 @@ int main_debug()
     liste_poisson = NULL;
     result = initialise_poisson(&liste_poisson, &ocean, 1);
     printf("Resultat: %s (attendu: 0)\n", result ? "SUCCES" : "ECHEC");
-
-    printf("\n=== Tous les tests completes ===\n");
-    while (!touche_pesee())
-        ;
-    obtenir_touche();
     fermer_mode_graphique();
 #endif
 #ifdef TEST_DEPLACEMENT_POISSON
@@ -367,7 +359,6 @@ int main_debug()
     libererListe(liste);
     fermer_mode_graphique();
 #endif
-
 #ifdef TEST_LISTE
     printf("=== TEST LISTE ===\n");
     t_liste *liste = NULL;
@@ -439,7 +430,7 @@ int main_debug()
 int main_init(void)
 {
     init_alea();
-#ifdef TEST_INIT_POISSON
+#if defined(TEST_INIT_POISSON) || defined(TEST_OCEAN) || defined(TEST_DEPLACEMENT_POISSON) || defined(TEST_NOUVEAU_POISSON) || defined(TEST_MORT_POISSON) || defined(TEST_COMPTER_REQUINS)
     init_graphe(HAUTEUR, LARGEUR);
     init_zone_environnement(HAUTEUR, LARGEUR);
 #endif
