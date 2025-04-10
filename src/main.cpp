@@ -121,22 +121,253 @@ int main_debug()
     return 0;
 #endif
 #ifdef TEST_INIT_POISSON
-    printf("Test d'initialisation de la liste des poissons :\n");
-
+    printf("\n=== TEST initialise_poisson() ===\n");
     t_ocean ocean;
-    t_liste_poisson *liste_poisson = NULL; // creation d'une liste
-    int temps;
-    t_animal poissonTest = {10, 10, 0, 0, 0}; // Initialisation d'un poisson de test
+    t_liste_poisson *liste_poisson = NULL;
+    int temps = 0;
 
-    int quantite = alea(1, MAX_POISSON);
-    initialise_poisson(&liste_poisson, &ocean, quantite); // Initialisation de la liste des poissons
-    printf("Liste des poissons initialisee avec %d poissons.\n", quantite);
+    // Initialize graphics
+    init_graphe(HAUTEUR, LARGEUR);
+    init_zone_environnement(HAUTEUR, LARGEUR);
 
-    printf("\n\n=== Debut des tests ===\n");
+    // Test 1: Small quantity (10 fish)
+    printf("\n--- Test 1: Petite quantite (10 poissons) ---\n");
+    vider_ocean(&ocean);
+    int result = initialise_poisson(&liste_poisson, &ocean, 10);
+    printf("Resultat: %s\n", result ? "SUCCES" : "ECHEC");
     dessiner_ocean(&ocean, temps++);
     delai_ecran(1000);
 
+    // Test 2: Medium quantity (100 fish)
+    printf("\n--- Test 2: Quantite moyenne (100 poissons) ---\n");
+    vider_ocean(&ocean);
+    liste_poisson = NULL; // Reset list
+    result = initialise_poisson(&liste_poisson, &ocean, 100);
+    printf("Resultat: %s\n", result ? "SUCCES" : "ECHEC");
+    dessiner_ocean(&ocean, temps++);
+    delai_ecran(1000);
+
+    // Test 3: Large quantity (500 fish)
+    printf("\n--- Test 3: Grande quantite (500 poissons) ---\n");
+    vider_ocean(&ocean);
+    liste_poisson = NULL;
+    result = initialise_poisson(&liste_poisson, &ocean, 500);
+    printf("Resultat: %s\n", result ? "SUCCES" : "ECHEC");
+    dessiner_ocean(&ocean, temps++);
+    delai_ecran(1000);
+
+    // Test 4: Edge case - zero fish
+    printf("\n--- Test 4: Quantite zero ---\n");
+    vider_ocean(&ocean);
+    liste_poisson = NULL;
+    result = initialise_poisson(&liste_poisson, &ocean, 0);
+    printf("Resultat: %s (attendu: 1)\n", result ? "SUCCES" : "ECHEC");
+
+    // Test 5: Error case - full ocean
+    printf("\n--- Test 5: Ocean plein ---\n");
+    vider_ocean(&ocean);
+    // Fill ocean with sharks
+    for (int y = 0; y < HAUTEUR; y++)
+    {
+        for (int x = 0; x < LARGEUR; x++)
+        {
+            ocean[y][x].contenu = REQUIN;
+            ocean[y][x].animal = NULL;
+        }
+    }
+    liste_poisson = NULL;
+    result = initialise_poisson(&liste_poisson, &ocean, 1);
+    printf("Resultat: %s (attendu: 0)\n", result ? "SUCCES" : "ECHEC");
+
+    printf("\n=== Tous les tests completes ===\n");
+    while (!touche_pesee())
+        ;
+    obtenir_touche();
+    fermer_mode_graphique();
 #endif
+#ifdef TEST_DEPLACEMENT_POISSON
+
+    printf("\n=== TEST deplacer_poisson_1_case() ===\n");
+
+    // Initialisation
+    t_ocean ocean;
+    t_liste_poisson *liste = NULL;
+    int temps = 0;
+
+    // Initialisation graphique
+    init_graphe(HAUTEUR, LARGEUR);
+    init_zone_environnement(HAUTEUR, LARGEUR);
+    vider_ocean(&ocean);
+
+    // Création d'un poisson de test
+    t_animal poisson_test = {
+        .posx = LARGEUR / 2,
+        .posy = HAUTEUR / 2,
+        .age = 10,
+        .energie_sante = ENERGIE_INIT_POISSON,
+        .jrs_gest = 0};
+
+    // Insertion dans la liste et l'océan
+    t_liste_poisson *noeud_test = insererEnTete(&liste, poisson_test);
+    inserer_contenu_pointeur_case_grille(poisson_test.posx, poisson_test.posy, &ocean, POISSON, &(noeud_test->animal));
+
+    // Test 1: Déplacement normal
+    printf("\n--- Test 1: Deplacement normal ---\n");
+    dessiner_ocean(&ocean, temps++);
+    printf("Position initiale: (%d,%d)\n", noeud_test->animal.posx, noeud_test->animal.posy);
+    delai_ecran(1000);
+
+    int result = deplacer_poisson_1_case(noeud_test, &ocean);
+    printf("Resultat: %s\n", result ? "SUCCES" : "ECHEC");
+    printf("Nouvelle position: (%d,%d)\n", noeud_test->animal.posx, noeud_test->animal.posy);
+    dessiner_ocean(&ocean, temps++);
+    delai_ecran(1000);
+
+    // Test 2: Déplacement avec rebord horizontal
+    printf("\n--- Test 2: Rebord horizontal ---\n");
+    noeud_test->animal.posx = LARGEUR - 1; // Position sur le bord droit
+    effacer_contenu_case_grille(noeud_test->animal.posx, noeud_test->animal.posy, &ocean);
+    inserer_contenu_pointeur_case_grille(noeud_test->animal.posx, noeud_test->animal.posy, &ocean, POISSON, &(noeud_test->animal));
+
+    dessiner_ocean(&ocean, temps++);
+    printf("Position initiale: (%d,%d)\n", noeud_test->animal.posx, noeud_test->animal.posy);
+    delai_ecran(1000);
+
+    result = deplacer_poisson_1_case(noeud_test, &ocean);
+    printf("Resultat: %s\n", result ? "SUCCES" : "ECHEC");
+    printf("Nouvelle position: (%d,%d)\n", noeud_test->animal.posx, noeud_test->animal.posy);
+    dessiner_ocean(&ocean, temps++);
+    delai_ecran(1000);
+
+    // Test 3: Déplacement impossible (océan plein)
+    printf("\n--- Test 3: Ocean plein ---\n");
+    vider_ocean(&ocean);
+    // Remplir tout l'océan de requins
+    for (int y = 0; y < HAUTEUR; y++)
+    {
+        for (int x = 0; x < LARGEUR; x++)
+        {
+            ocean[y][x].contenu = REQUIN;
+            ocean[y][x].animal = NULL;
+        }
+    }
+    // Placer notre poisson au milieu
+    noeud_test->animal.posx = LARGEUR / 2;
+    noeud_test->animal.posy = HAUTEUR / 2;
+    ocean[HAUTEUR / 2][LARGEUR / 2].contenu = POISSON;
+    ocean[HAUTEUR / 2][LARGEUR / 2].animal = &(noeud_test->animal);
+
+    dessiner_ocean(&ocean, temps++);
+    printf("Position initiale: (%d,%d)\n", noeud_test->animal.posx, noeud_test->animal.posy);
+    delai_ecran(1000);
+
+    result = deplacer_poisson_1_case(noeud_test, &ocean);
+    printf("Resultat: %s (attendu: ECHEC)\n", result ? "SUCCES" : "ECHEC");
+    printf("Position finale: (%d,%d)\n", noeud_test->animal.posx, noeud_test->animal.posy);
+    dessiner_ocean(&ocean, temps++);
+    delai_ecran(1000);
+
+    // Nettoyage
+    libererListe(liste);
+    printf("\n=== Tests termines ===\n");
+    while (!touche_pesee())
+        ;
+    obtenir_touche();
+    fermer_mode_graphique();
+#endif
+#ifdef TEST_NOUVEAU_POISSON
+    printf("\n=== TEST nouveau_poisson() ===\n");
+
+    // Initialisation
+    t_ocean ocean;
+    t_liste_poisson *liste = NULL;
+    init_graphe(HAUTEUR, LARGEUR);
+    init_zone_environnement(HAUTEUR, LARGEUR);
+    vider_ocean(&ocean);
+
+    // Création parent
+    t_animal parent = {
+        .posx = LARGEUR / 2,
+        .posy = HAUTEUR / 2,
+        .age = NB_JRS_PUB_POISSON + 1,
+        .energie_sante = ENERGIE_INIT_POISSON,
+        .jrs_gest = NB_JRS_GEST_POISSON};
+    insererEnTete(&liste, parent);
+    inserer_contenu_pointeur_case_grille(parent.posx, parent.posy, &ocean, POISSON, &(liste->animal));
+
+    // Test 1: Cas normal
+    printf("--- Test 1: Ajout valide ---\n");
+    int result = nouveau_poisson(&liste, &(liste->animal), &ocean);
+    printf("Resultat: %d (attendu: 1)\n", result);
+    printf("Nombre poissons: %d\n", compter_poissons(liste));
+
+    // Test 2: Fausse couche
+    printf("\n--- Test 2: Fausse couche ---\n");
+    int succes = 0, echecs = 0;
+    for (int i = 0; i < 100; i++)
+    {
+        if (nouveau_poisson(&liste, &(liste->animal), &ocean))
+            succes++;
+        else
+            echecs++;
+        liste->animal.jrs_gest = NB_JRS_GEST_POISSON; // Reset pour nouveau test
+    }
+    printf("Succes: %d, Echecs: %d (=33 attendu)\n", succes, echecs);
+
+    // Nettoyage
+    libererListe(liste);
+    fermer_mode_graphique();
+#endif
+#ifdef TEST_MORT_POISSON
+    printf("\n=== TEST mort_poisson() ===\n");
+
+    // Initialisation
+    t_ocean ocean;
+    t_liste *liste = NULL;
+
+    init_graphe(HAUTEUR, LARGEUR);
+    init_zone_environnement(HAUTEUR, LARGEUR);
+    vider_ocean(&ocean);
+
+    // Création d’un poisson à insérer
+    t_animal poisson = {
+        .posx = LARGEUR / 2,
+        .posy = HAUTEUR / 2,
+        .age = 10,
+        .energie_sante = ENERGIE_INIT_POISSON,
+        .jrs_gest = 0};
+
+    // Insertion du poisson dans la liste
+    insererEnTete(&liste, poisson);
+
+    // Insertion dans la grille
+    inserer_contenu_pointeur_case_grille(poisson.posx, poisson.posy, &ocean, POISSON, &(liste->animal));
+
+    // Vérification avant suppression
+    printf("--- Avant mort_poisson() ---\n");
+    printf("Poisson en (%d,%d), contenu: %d, ptr animal: %p\n",
+           poisson.posx, poisson.posy,
+           ocean[poisson.posy][poisson.posx].contenu,
+           ocean[poisson.posy][poisson.posx].animal);
+    printf("Nombre poissons: %d (attendu: 1)\n", compter_poissons(liste));
+
+    // Test : Suppression de la tête
+    int result = mort_poisson(&liste, &ocean);
+
+    printf("\n--- Apres mort_poisson() ---\n");
+    printf("Resultat: %d (attendu: 1)\n", result);
+    printf("Contenu case (%d,%d): %d (attendu: 0 pour VIDE)\n",
+           poisson.posx, poisson.posy,
+           ocean[poisson.posy][poisson.posx].contenu);
+    printf("Pointeur animal case: %p (attendu: NULL)\n",
+           ocean[poisson.posy][poisson.posy].animal);
+    printf("Nombre poissons: %d (attendu: 0)\n", compter_poissons(liste));
+
+    // Nettoyage
+    libererListe(liste);
+    fermer_mode_graphique();
+#endif
+
 #ifdef TEST_LISTE
     printf("=== Debut des tests ===\n");
     t_liste *liste = NULL;
@@ -183,11 +414,11 @@ int main_init(void)
     return 0;
 }
 #elif TP3
-int main_init(void)
-{
-    init_alea();
-    return 0;
-}
+    int main_init(void)
+    {
+        init_alea();
+        return 0;
+    }
 #endif
 
 int main()
@@ -197,11 +428,12 @@ int main()
     printf("Debug version\n");
     return main_debug();
 #elif defined TP3
-    printf("TP3 version\n");
-    return 0
+        printf("TP3 version\n");
+        return 0
 
 #else
-    printf("No configuration defined!\n");
-    return 1; // Error code
+        printf("No configuration defined!\n");
+        return 1; // Error code
+
 #endif
 }

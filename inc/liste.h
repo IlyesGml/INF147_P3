@@ -29,7 +29,7 @@ void supprimerEnTete(t_liste** liste);
 void supprimerAnimal(t_noeud** tete ,t_noeud* animal_to_kill);
 void libererListe(t_liste* liste);
 void afficherListe(t_liste* liste);
-
+t_noeud* insererEnFin(t_liste** liste, t_animal animal);
 
 
 #endif // LISTE_H

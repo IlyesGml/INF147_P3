@@ -53,7 +53,8 @@ int nombre_saisi()
     {
         c = _getch();
         if (c >= '0' && c <= '9')            
-            nb = nb * 10 + (c - '0');          
+            nb = nb * 10 + (c - '0');  
+            printf("%c", c); // Affiche le chiffre saisi        
     } 
     return nb;
 }

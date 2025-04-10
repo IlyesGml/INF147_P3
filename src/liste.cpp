@@ -136,3 +136,32 @@ void afficherListe(t_liste* liste)
     }
     printf("\n");
 }
+
+t_noeud* insererEnFin(t_liste** liste, t_animal animal)
+{
+    t_liste* nouveau_noeud = creer_noeud(animal);
+    if (nouveau_noeud == NULL)
+    {
+        printf("Erreur d'allocation de memoire pour le noeud.\n");
+        return NULL;
+    }
+
+    // Cas où la liste est vide
+    if (*liste == NULL)
+    {
+        *liste = nouveau_noeud;
+        return nouveau_noeud;
+    }
+
+    // Parcours jusqu'au dernier élément
+    t_liste* courant = *liste;
+    while (courant->suivant != NULL)
+    {
+        courant = courant->suivant;
+    }
+    // Ajout du nouveau nœud à la fin
+    courant->suivant = nouveau_noeud;
+    nouveau_noeud->precedent = courant;
+    return nouveau_noeud;
+}
+
