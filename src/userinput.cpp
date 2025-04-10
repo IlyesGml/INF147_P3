@@ -13,8 +13,6 @@
 #include "main.h"
 
 // Prototypes de fonctions
-int SaisieDirection();
-
 int SaisieDirection()
 {
     int touche = _getch();
@@ -39,5 +37,18 @@ int SaisieDirection()
                 return FLECHE_GAUCHE;
         }
     }
-    return 0;  // Aucune touche flÃ©chÃ©e pressÃ©e
+    return 0;  // Aucune touche fléchée ou chiffre pressé
+}
+int nombre_saisi()
+{
+    int nb = 0;
+    char c;
+    do {
+        c = _getch();
+        if (c >= '0' && c <= '9') { // Si la touche est un chiffre
+            nb = nb * 10 + (c - '0'); // Ajoute le chiffre Ã  la valeur actuelle
+            printf("%c", c); // Affiche le chiffre saisi
+        }
+    } while (c != '\r'); // Tant que la touche appuyée n'est pas la touche Entre?e
+    return nb;
 }
