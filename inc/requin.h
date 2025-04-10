@@ -2,86 +2,90 @@
 #define REQUIN_H
 /**
  * @file requin.h
- * @brief Fichier d'en-tÃªte pour la gestion du module des requins dans la simulation de l'ocÃ©an.
+ * @brief Fichier d'en-tête pour la gestion des requins dans la simulation de l'océan.
  *
- * Ce fichier contient les dÃ©finitions, constantes et prototypes de fonctions nÃ©cessaires
- * pour gÃ©rer la liste des requins dans la simulation de l'ocÃ©an. Il inclut les fonctionnalitÃ©s
- * pour initialiser la liste des requins, dÃ©placer les requins, gÃ©rer leur reproduction,
+ * Ce fichier contient les définitions, constantes et prototypes de fonctions nécessaires
+ * pour gérer la liste des requins dans la simulation de l'océan. Il inclut les fonctionnalités
+ * pour initialiser la liste des requins, déplacer les requins, gérer leur reproduction,
  * et les retirer de la liste.
  *
  * Constantes :
- * - MAX_AGE_REQUIN : Ã‚ge maximal d'un requin.
- * - NB_JRS_PUB_REQUIN : Nombre de jours avant qu'un requin atteigne la pubertÃ©.
+ * - MAX_AGE_REQUIN : Âge maximal d'un requin.
+ * - NB_JRS_PUB_REQUIN : Nombre de jours avant qu'un requin atteigne la puberté.
  * - NB_JRS_GEST_REQUIN : Nombre de jours de gestation pour un requin.
- * - ENERGIE_DIGESTION : Ã‰nergie gagnÃ©e par un requin aprÃ¨s un repas.
+ * - ENERGIE_DIGESTION : Énergie gagnée par un requin après un repas.
  *
  * Fonctions :
- * - init_requin : Initialise la liste des requins.
- * - nouveau_requin : Ajoute un nouveau requin Ã  la liste.
+ * - initialise_requin : Initialise la liste des requins.
+ * - nouveau_requin : Ajoute un nouveau requin à la liste.
  * - mort_requin : Retire un requin de la liste.
- * - deplacement_requin : DÃ©place un requin dans l'ocÃ©an.
+ * - deplacer_requin_1_case : Déplace un requin d'une case dans l'océan.
  */
-// Inclusion des en-tÃªtes nÃ©cessaires
+// Inclusion des en-têtes nécessaires
 #include "main.h"
 
-#define MAX_AGE_REQUIN 1500 //Ã¢ge maximal du requin
-#define NB_JRS_PUB_REQUIN 90 //nombre de jours avant la pubertÃ©
-#define NB_JRS_GEST_REQUIN 30 //nombre de jours de gestation
-#define ENERGIE_DIGESTION 10 //valeur ajoutÃ©e Ã  l'indice dâ€™Ã©nergie aprÃ¨s un repas
+#define MAX_AGE_REQUIN 1500 // Âge maximal du requin
+#define NB_JRS_PUB_REQUIN 90 // Nombre de jours avant la puberté
+#define NB_JRS_GEST_REQUIN 30 // Nombre de jours de gestation
+#define ENERGIE_DIGESTION 10 // Valeur ajoutée à l'indice d?énergie après un repas
 
-
-//====== STRUCTURE ANIMAL ===//
-/*
-typedef struct {
-    int age; // Age de l'animal
-    int jrs_gest; // Jours de gestation
-    int energie_sante; // Energie de l'animal
-    int x; // Position x de l'animal
-    int y; // Position y de l'animal
-} t_animal;
-*/
 //====== STRUCTURE DEFINITION ===//
 typedef t_liste t_liste_requin;
+
 //====== PROTOTYPES DES FONCTIONS ===//
 /**
- * @brief Initialise la liste des requins.
+ * @brief Initialise la liste des requins dans l'océan.
  *
- * Cette fonction initialise la liste des requins en dÃ©finissant le nombre de requins Ã  zÃ©ro.
+ * Cette fonction initialise la liste des requins en définissant leur nombre et leur position initiale.
  *
- * @param requin Pointeur vers la liste des requins Ã  initialiser.
+ * @param tete_requin Pointeur vers la tête de la liste des requins à initialiser.
+ * @param ocean Pointeur vers l'océan où les requins seront placés.
+ * @param quantite Nombre de requins à initialiser.
+ * @return Code de succès ou d'erreur.
  */
-void init_requin(t_liste_requin* requin);
-/**
- * @brief DÃ©place un requin dans l'ocÃ©an.
- *
- * Cette fonction dÃ©place un requin Ã  une position donnÃ©e dans l'ocÃ©an.
- *
- * @param requin Pointeur vers la liste des requins.
- * @param position Position du requin Ã  dÃ©placer.
- * @param x Nouvelle coordonnÃ©e x du requin.
- * @param y Nouvelle coordonnÃ©e y du requin.
- */
-void deplacement_requin(t_liste_requin* requin, int position,t_direction);
-/**
- * @brief Ajoute un nouveau requin Ã  la liste.
- *
- * Cette fonction ajoute un nouveau requin Ã  la liste des requins Ã  une position donnÃ©e.
- *
- * @param requin Pointeur vers la liste des requins.
- * @param nouveau_requin Pointeur vers le nouveau requin Ã  ajouter.
- * @param position Position oÃ¹ ajouter le nouveau requin.
- */
-void nouveau_requin(t_liste_requin* requin, t_animal* nouveau_requin, int position);
-/**
- * @brief Retire un requin de la liste.
- *
- * Cette fonction retire un requin de la liste des requins Ã  une position donnÃ©e.
- *
- * @param requin Pointeur vers la liste des requins.
- * @param position Position du requin Ã  retirer.
- */
-void mort_requin(t_liste_requin* requin, int position);
+int initialise_requin(t_liste_requin** tete_requin, t_ocean* ocean, int quantite);
 
+/**
+ * @brief Déplace un requin d'une case dans l'océan.
+ *
+ * Cette fonction déplace un requin d'une case dans l'océan en mettant à jour ses coordonnées.
+ *
+ * @param requin Pointeur vers le n?ud représentant le requin à déplacer.
+ * @param ocean Pointeur vers l'océan où le requin se déplace.
+ * @return Code de succès ou d'erreur.
+ */
+int deplacer_requin_1_case(t_noeud* requin, t_ocean *ocean);
 
+/**
+ * @brief Ajoute un nouveau requin à la liste des requins.
+ *
+ * Cette fonction ajoute un nouveau requin à la liste des requins en fonction de son parent et de l'océan.
+ *
+ * @param liste Pointeur vers la liste des requins.
+ * @param parent Pointeur vers le requin parent.
+ * @param ocean Pointeur vers l'océan où le nouveau requin sera ajouté.
+ * @return Code de succès ou d'erreur.
+ */
+int nouveau_requin(t_liste_requin** liste, t_animal* parent, t_ocean* ocean);
+
+/**
+ * @brief Retire un requin de la liste des requins.
+ *
+ * Cette fonction retire un requin de la liste des requins et met à jour l'océan en conséquence.
+ *
+ * @param liste Pointeur vers la liste des requins.
+ * @param ocean Pointeur vers l'océan où le requin sera retiré.
+ * @return Code de succès ou d'erreur.
+ */
+int mort_requin(t_liste_requin** liste, t_ocean* ocean);
+/**
+ * @brief Compte le nombre de requins dans la liste.   
+ * 
+ * Cette fonction compte le nombre de requins dans la liste des requins.
+ * 
+ * @param liste Pointeur vers la tete de la liste des requins.
+ * @return Le nombre de requins dans la liste.
+ */
+int compter_requins(t_liste_requin* liste);
 
 #endif // REQUIN_H
