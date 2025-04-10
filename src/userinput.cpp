@@ -16,39 +16,43 @@
 int SaisieDirection()
 {
     int touche = _getch();
-    if (touche == 27) { // Touche Ã‰chap
+    if (touche == 27)
+    { // Touche Ã‰chap
         return TOUCHE_ESC;
     }
-    if (touche == 'y' || touche == 'Y') { // Touche Y
+    if (touche == 'y' || touche == 'Y')
+    { // Touche Y
         return TOUCHE_Y;
     }
-    if (touche == 'n' || touche == 'N') { // Touche N
+    if (touche == 'n' || touche == 'N')
+    { // Touche N
         return TOUCHE_N;
     }
-    if (touche == 0 || touche == 224) { // les touches flÃ©chÃ©es ont deux parties
-        switch (_getch()) {
-            case 72:
-                return FLECHE_HAUT;
-            case 80:
-                return FLECHE_BAS;
-            case 77:
-                return FLECHE_DROITE;
-            case 75:
-                return FLECHE_GAUCHE;
+    if (touche == 0 || touche == 224)
+    { // les touches flÃ©chÃ©es ont deux parties
+        switch (_getch())
+        {
+        case 72:
+            return FLECHE_HAUT;
+        case 80:
+            return FLECHE_BAS;
+        case 77:
+            return FLECHE_DROITE;
+        case 75:
+            return FLECHE_GAUCHE;
         }
     }
-    return 0;  // Aucune touche fléchée ou chiffre pressé
+    return 0; // Aucune touche fléchée ou chiffre pressé
 }
 int nombre_saisi()
 {
     int nb = 0;
     char c;
-    do {
+    while (c != '\r')
+    {
         c = _getch();
-        if (c >= '0' && c <= '9') { // Si la touche est un chiffre
-            nb = nb * 10 + (c - '0'); // Ajoute le chiffre Ã  la valeur actuelle
-            printf("%c", c); // Affiche le chiffre saisi
-        }
-    } while (c != '\r'); // Tant que la touche appuyée n'est pas la touche Entre?e
+        if (c >= '0' && c <= '9')            
+            nb = nb * 10 + (c - '0');          
+    } 
     return nb;
 }
