@@ -2,7 +2,7 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-09 21:02:08
+ * @ Modified time: 2025-04-09 21:59:44
  * @ Description: idk
  */
 
@@ -62,9 +62,10 @@ int main_init(void);
 /****************************  <   DEBUG  >    ************************************/
 int main_debug(void); // fonction de test en mode débogage
 //#define TESTRANDOM
-#define TEST_OCEAN // Test de la fonction vider_ocean
+//#define TEST_OCEAN // Test de la fonction vider_ocean
 //#define TEST_INIT_POISSON // Test de la fonction d'initialisation des poissons
 //#define TEST_LISTE
+#define TEST_LISTE_2
 #endif
 
 #endif

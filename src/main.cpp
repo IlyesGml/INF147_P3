@@ -1,12 +1,11 @@
 /**
  * @file main.c
  * @brief
- * @date 2025-04-01
- * @version 1.0
+ * @ Modified by: Your name
+ * @ Modified time: 2025-04-09 22:01:52
  */
 
 #include "main.h"
-
 #ifdef DEBUG
 int main_debug()
 {
@@ -202,14 +201,49 @@ int main_debug()
     afficherListe(liste); // Affichage de la liste après suppression
     libererListe(liste); // Libération de la mémoire de la liste
 #endif
-    system("pause"); // Pause pour voir les résultats
+#ifdef TEST_LISTE_2
+    printf("Test Liste modulable\n\n");
+    t_liste* liste = NULL;    
+
+    int n = MAX_POISSON;                 
+    int k = 7;                  
+
+    t_animal a;
+    t_noeud* noeud[n];
+    for (int i = 0; i < n; i++)
+    {
+        a.age = a.energie_sante = a.posx = a.posy = a.jrs_gest = i;
+        noeud[i] = insererEnTete(&liste, a);
+        printf("\nadresse de l'animal %d : %p\n", i + 1, (void*)&noeud[i]);
+    }
+
+    printf("\nListe apres %d insertions :\n", n);
+    afficherListe(liste);
+
+    int idx = k - 1;
+    printf("\nSuppression de l'animal %d (noeud %p) :\n", k, (void*)noeud[idx]);
+    printf("Suivant  de l'animal %d : %p\n", k, (void*)&noeud[idx]->suivant);
+    printf("Precedent de l'animal %d : %p\n", k, (void*)&noeud[idx]->precedent);
+    supprimerAnimal(&liste, noeud[idx]);
+
+    printf("\nListe apres suppression du %deme :\n", k);
+    afficherListe(liste);
+
+    libererListe(liste);       
+#endif  
+    printf("======= Fin du test =======\n");
+    system("pause");
     return 0;
 }
+
+
 int main_init(void)
 {
     init_alea();
+#ifdef TEST_INIT_POISSON
     init_graphe(HAUTEUR, LARGEUR);
     init_zone_environnement(HAUTEUR, LARGEUR);
+#endif
     return 0;
 }
 #elif TP3
