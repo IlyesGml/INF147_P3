@@ -2,12 +2,12 @@
  * Fichier: userinput.c
  * Auteur: Ilyes Gharmoul
  * Date: 2025-02-27
- * Description: Ce fichier contient des fonctions pour gérer les entrées utilisateur.
+ * Description: Ce fichier contient des fonctions pour geree les entrees utilisateur.
  * Version: 1.0
- * Touches fléchées et Échap
- * Fonction SaisieDirection() qui retourne une direction selon la touche pressée.
- *      Retourne 0 si aucune touche fléchée pressée.
- *      Retourne TOUCHE_ESC si la touche Échap est pressée.
+ * Touches flechees et ehap
+ * Fonction SaisieDirection() qui retourne une direction selon la touche pressee.
+ *      Retourne 0 si aucune touche flechees pressee.
+ *      Retourne TOUCHE_ESC si la touche echap est pressee.
  */
 
 #include "main.h"
@@ -17,7 +17,7 @@ int SaisieDirection()
 {
     int touche = _getch();
     if (touche == 27)
-    { // Touche Échap
+    { // Touche echap
         return TOUCHE_ESC;
     }
     if (touche == 'y' || touche == 'Y')
@@ -29,7 +29,7 @@ int SaisieDirection()
         return TOUCHE_N;
     }
     if (touche == 0 || touche == 224)
-    { // les touches fléchées ont deux parties
+    { // les touches flechees ont deux parties
         switch (_getch())
         {
         case 72:
@@ -42,7 +42,8 @@ int SaisieDirection()
             return FLECHE_GAUCHE;
         }
     }
-    return 0; // Aucune touche fl�ch�e ou chiffre press�
+
+    return 0; // Aucune touche flechee ou chiffre presse
 }
 int nombre_saisi()
 {
