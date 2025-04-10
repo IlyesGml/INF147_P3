@@ -64,10 +64,11 @@
 //#define TESTRANDOM
 //#define TEST_OCEAN // Test de la fonction vider_ocean
 //#define TEST_INIT_POISSON // Test de la fonction d'initialisation des poissons
-#define TEST_LISTE
+//#define TEST_LISTE
 //#define TEST_DEPLACEMENT_POISSON
 //#define TEST_NOUVEAU_POISSON
 //#define TEST_MORT_POISSON
+#define TEST_COMPTER_REQUINS
  #endif
  
  #endif

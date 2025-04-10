@@ -78,5 +78,14 @@ int nouveau_requin(t_liste_requin** liste, t_animal* parent, t_ocean* ocean);
  * @return Code de succès ou d'erreur.
  */
 int mort_requin(t_liste_requin** liste, t_ocean* ocean);
+/**
+ * @brief Compte le nombre de requins dans la liste.   
+ * 
+ * Cette fonction compte le nombre de requins dans la liste des requins.
+ * 
+ * @param liste Pointeur vers la tete de la liste des requins.
+ * @return Le nombre de requins dans la liste.
+ */
+int compter_requins(t_liste_requin* liste);
 
 #endif // REQUIN_H
