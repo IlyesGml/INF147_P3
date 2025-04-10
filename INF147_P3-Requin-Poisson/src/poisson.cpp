@@ -9,7 +9,7 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
     if (quantite < 0) return 0;
     if (quantite == 0) return 1;  // Rien à faire
 
-    printf("Début initialisation de %d poissons...\n", quantite);
+    printf("Debut initialisation de %d poissons...\n", quantite);
 
     t_animal poisson;
     int poissons_places = 0;
@@ -52,7 +52,7 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
         poissons_places++;
     }
 
-    printf("%d poissons initialisés avec succès\n", poissons_places);
+    printf("%d poissons initialises avec succes\n", poissons_places);
     return 1;
 }
 
