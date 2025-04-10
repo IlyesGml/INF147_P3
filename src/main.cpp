@@ -369,7 +369,7 @@ int main_debug()
 #endif
 
 #ifdef TEST_LISTE
-    printf("=== Debut des tests ===\n");
+    printf("=== TEST LISTE ===\n");
     t_liste *liste = NULL;
     printf("Nombre d'insertions\nEntrez le nombre d'animaux a inserer :\n");
     int n = nombre_saisi();
@@ -398,6 +398,38 @@ int main_debug()
     afficherListe(liste);
 
     libererListe(liste);
+#endif
+#ifdef TEST_COMPTER_REQUINS
+
+    printf("=== TEST COMPTER REQUINS ===\n");
+    t_liste_requin *liste_requin = NULL;
+    t_ocean ocean;
+    printf("Nombre d'insertions\nEntrez le nombre de requins a inserer :\n");
+    int n = nombre_saisi();
+    printf("\nAnimal a supprimer\nEntrez le numero de requin a supprimer :\n");
+    int k = nombre_saisi();
+
+    init_graphe(HAUTEUR, LARGEUR);
+    init_zone_environnement(HAUTEUR, LARGEUR);
+    vider_ocean(&ocean);
+
+    t_animal a;
+    t_noeud *noeud[n];
+    for (int i = 0; i < n; i++)
+    {
+        a.age = a.energie_sante = a.posx = a.posy = a.jrs_gest = i;
+        noeud[i] = insererEnTete(&liste_requin, a);
+        inserer_contenu_pointeur_case_grille(a.posx, a.posy, &ocean, REQUIN, &(noeud[i]->animal));
+    }
+    printf("\nListe apres %d insertions :\n", n);
+    afficherListe(liste_requin);
+    printf("\ncompter_requins() : %d\n", compter_requins(liste_requin));
+    printf("\nsuppression... :\n");
+    int idx = k - 1;
+    
+
+
+
 #endif
     printf("======= Fin du test =======\n");
     system("pause");
