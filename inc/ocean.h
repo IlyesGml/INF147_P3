@@ -5,6 +5,7 @@
 //
 #define HAUTEUR   60
 #define LARGEUR  120
+#define MAX_ESSAIS LARGEUR* HAUTEUR
 
 /* Type énuméré pour les 8 directions de déplacement */
 typedef enum {HAUT, HAUT_DR, DROITE, BAS_DR, BAS, BAS_G, GAUCHE, HAUT_G} t_direction;

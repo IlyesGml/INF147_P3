@@ -61,7 +61,7 @@ typedef t_liste t_liste_poisson;
  * 
  * @param poisson Pointeur vers la liste des poissons à initialiser.
  */
-void init_poisson(t_liste_poisson* poisson, t_ocean *ocean, int quantite);
+int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quantite);
 /**
  * @brief Déplace un poisson dans l'océan.
  * 
@@ -72,7 +72,7 @@ void init_poisson(t_liste_poisson* poisson, t_ocean *ocean, int quantite);
  * @param x Nouvelle position x du poisson.
  * @param y Nouvelle position y du poisson.
  */ 
-void deplacement_poisson(t_liste_poisson* poisson, int position, t_case *ocean, t_direction direction);
+void deplacement_poisson(t_liste_poisson** poisson, int position, t_case *ocean, t_direction direction);
 /**
  * @brief Ajoute un nouveau poisson à la liste.
  * 
