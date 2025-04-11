@@ -102,4 +102,16 @@ int compter_poissons(t_liste_poisson* liste);
  */
 int deplacer_tout_les_poissons(t_liste_poisson** liste, t_ocean* ocean);
 
+
+/**
+ * @brief Crée un nouveau poisson dans l'océan.
+ * 
+ * Cette fonction crée un nouveau poisson dans l'océan à une position donnée.
+ * 
+ * @param liste Pointeur vers la liste des poissons.
+ * @param parent Pointeur vers le poisson parent.
+ * @param ocean Pointeur vers l'océan où créer le poisson.
+ */
+int nouveau_poisson(t_liste_poisson** liste, t_animal* parent, t_ocean* ocean);
+
 #endif // POISSON_H
