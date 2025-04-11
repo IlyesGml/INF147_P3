@@ -2,7 +2,7 @@
  * @file main.c
  * @brief
  * @ Modified by: Your name
- * @ Modified time: 2025-04-10 22:11:49
+ * @ Modified time: 2025-04-11 13:31:02
  */
 
 #include "main.h"
@@ -740,6 +740,7 @@ int main_debug() {
     printf("=== FINAL TEST ===\n");
     t_liste_requin* liste_requin = NULL;
     t_liste_poisson* liste_poisson = NULL;
+    
     printf("\nadresse de la tete de poisson %p:\n", (void*)&liste_poisson);
     printf("\nadresse de la tete de requin %p:\n", (void*)&liste_requin);
 

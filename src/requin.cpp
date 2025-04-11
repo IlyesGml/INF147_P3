@@ -70,39 +70,17 @@ int deplacer_requin_1_case(t_noeud* requin, t_ocean* ocean) {
     int posx_temp = requin->animal.posx;
     int posy_temp = requin->animal.posy;
     int nouvelle_posx, nouvelle_posy;
-    t_direction dir;
-    int tentatives = 0;
-    const int MAX_TENTATIVES = 8;
 
-    do
+    // Choix aleatoire d'une case voisine
+    if (!choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy))
     {
-        // Choix aleatoire d'une case voisine
-        dir = choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy);
-        tentatives++;
-
-        // Gestion du "wrap-around" horizontal
-        if (nouvelle_posx < 0) nouvelle_posx = LARGEUR - 1;
-        else if (nouvelle_posx >= LARGEUR) nouvelle_posx = 0;
-
-        // Verifier si la case est valide et vide
-        if (nouvelle_posy >= 0 && nouvelle_posy < HAUTEUR &&
-            (*ocean)[nouvelle_posy][nouvelle_posx].contenu == VIDE)
-        {
-            break;
-        }
-
-        // Condition de sortie si trop de tentatives
-        if (tentatives >= MAX_TENTATIVES)
-        {
-            return 0; // Echec du deplacement
-        }
-
-    } while (1);
+        return 0; // Echec
+    }
 
     // Mise a jour de la grille
     if (!inserer_contenu_pointeur_case_grille(nouvelle_posx, nouvelle_posy, ocean, REQUIN, &(requin->animal)))
     {
-        return 0;
+        return 0; // Echec
     }
 
     // Mise a jour des coordonnees
@@ -112,7 +90,7 @@ int deplacer_requin_1_case(t_noeud* requin, t_ocean* ocean) {
     // Nettoyage ancienne position
     if (!effacer_contenu_case_grille(posx_temp, posy_temp, ocean))
     {
-        // En cas d'echec, annuler le deplacement
+        // Si echec, annuler deplacement
         effacer_contenu_case_grille(nouvelle_posx, nouvelle_posy, ocean);
         requin->animal.posx = posx_temp;
         requin->animal.posy = posy_temp;
@@ -182,7 +160,7 @@ int deplacer_tout_les_requins (t_liste_requin** liste, t_ocean* ocean) {
     // Parcours de toute la liste
     while (courant != NULL)
     {
-        if (deplacer_requin_1_case(courant, ocean))
+        deplacer_requin_1_case(courant, ocean);
         courant = courant->suivant;
     }
     return 1;

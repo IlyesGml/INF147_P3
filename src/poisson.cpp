@@ -6,7 +6,7 @@
 
 int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quantite) {
     // Verification des entrees
-    if ((quantite <= 0)||(quantite > MAX_POISSON)) return 0;
+    if ((quantite <= 0) || (quantite > MAX_POISSON)) return 0;
 #ifdef DEBUG
     printf("Debut initialisation de %d poissons...\n", quantite);
 #endif
@@ -31,9 +31,9 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
         }
         if (!position_trouvee)
         {
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("Attention : seulement %d/%d poissons places\n", poissons_places, quantite);
-            #endif
+#endif
             return (poissons_places > 0) ? 1 : 0;
         }
         // Placement du poisson
@@ -41,17 +41,17 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
         t_liste_poisson* nouveau = insererEnTete(tete_poisson, poisson);
         if (nouveau == NULL)
         {
-            #ifdef DEBUG
+#ifdef DEBUG
             printf("Erreur memoire !\n");
-            #endif
+#endif
             return (poissons_places > 0) ? 1 : 0;
         }
         (*ocean)[poisson.posy][poisson.posx].animal = nouveau;
         poissons_places++;
     }
-    #ifdef DEBUG
+#ifdef DEBUG
     printf("%d poissons initialises avec succes\n", poissons_places);
-    #endif
+#endif
     return 1;
 }
 
@@ -59,40 +59,15 @@ int deplacer_poisson_1_case(t_noeud* poisson, t_ocean* ocean) {
     int posx_temp = poisson->animal.posx;
     int posy_temp = poisson->animal.posy;
     int nouvelle_posx, nouvelle_posy;
-    t_direction dir;
-    int tentatives = 0;
-    const int MAX_TENTATIVES = 8;
-    do
-    {
-        // Choix aleatoire d'une case voisine
-        dir = choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy);
-        tentatives++;
 
-        // Gestion du "wrap-around" horizontal
-        if (nouvelle_posx < 0)
-            nouvelle_posx = LARGEUR - 1;
-        else if (nouvelle_posx >= LARGEUR)
-            nouvelle_posx = 0;
-
-        // Verifier si la case est valide et vide
-        if (nouvelle_posy >= 0 && nouvelle_posy < HAUTEUR &&
-            (*ocean)[nouvelle_posy][nouvelle_posx].contenu == VIDE)
-        {
-            break;
-        }
-
-        // Condition de sortie si trop de tentatives
-        if (tentatives >= MAX_TENTATIVES)
-        {
-            return 0; // Echec
-        }
-
-    } while (1);
+    // Choix aleatoire d'une case voisine
+    if (!choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy));
+    return 0; // Echec
 
     // Mise a jour de la grille
     if (!inserer_contenu_pointeur_case_grille(nouvelle_posx, nouvelle_posy, ocean, POISSON, &(poisson->animal)))
     {
-        return 0;
+        return 0; // Echec
     }
 
     // Mise a jour des coordonnees
@@ -108,11 +83,10 @@ int deplacer_poisson_1_case(t_noeud* poisson, t_ocean* ocean) {
         poisson->animal.posy = posy_temp;
         return 0;
     }
-
     return 1;
 }
 
-int deplacer_tout_les_poissons (t_liste_poisson** liste, t_ocean* ocean) {
+int deplacer_tout_les_poissons(t_liste_poisson** liste, t_ocean* ocean) {
     // Verification des parametres
     if (liste == NULL || ocean == NULL)
     {
@@ -125,7 +99,7 @@ int deplacer_tout_les_poissons (t_liste_poisson** liste, t_ocean* ocean) {
     // Parcours de toute la liste
     while (courant != NULL)
     {
-        if (deplacer_poisson_1_case(courant, ocean))
+        deplacer_poisson_1_case(courant, ocean);
         courant = courant->suivant;
     }
     return 1;
@@ -133,7 +107,7 @@ int deplacer_tout_les_poissons (t_liste_poisson** liste, t_ocean* ocean) {
 
 int compter_poissons(t_liste_poisson* liste) {
     int nb_poisson = 0;
-    t_liste_requin* courant = liste;
+    t_liste_poisson* courant = liste;
 
     // Parcours de toute la liste
     while (courant != NULL)
@@ -196,9 +170,9 @@ int mort_poisson(t_liste_poisson** liste, t_ocean* ocean) {
     // Verification des parametres
     if (liste == NULL || *liste == NULL || ocean == NULL)
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         fprintf(stderr, "Parametres invalides\n");
-        #endif
+#endif
         return 0;
     }
 
@@ -211,9 +185,9 @@ int mort_poisson(t_liste_poisson** liste, t_ocean* ocean) {
     // Verification des coordonnees
     if (posx < 0 || posx >= LARGEUR || posy < 0 || posy >= HAUTEUR)
     {
-        #ifdef DEBUG
+#ifdef DEBUG
         fprintf(stderr, "Coordonnees invalides (%d,%d)\n", posx, posy);
-        #endif
+#endif
         return 0;
     }
 
