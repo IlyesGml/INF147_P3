@@ -86,7 +86,7 @@ int nombre_case_voisine_libre(int posx, int posy, t_ocean *ocean) {
     return count;
 }
 
-t_direction choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean *ocean, int *newx, int *newy) {
+t_direction choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean* ocean, int* newx, int* newy) {
     // Tableau des déplacements pour chaque direction
     const struct {
         int dx;
@@ -95,12 +95,12 @@ t_direction choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean *ocea
     deplacements[8] = {
             [HAUT]    = { 0, -1},
             [HAUT_DR] = { 1, -1},
-            [DROITE]  = { 1,  0},
-            [BAS_DR]  = { 1,  1},
-            [BAS]     = { 0,  1},
-            [BAS_G]   = {-1,  1},
-            [GAUCHE]  = {-1,  0},
-            [HAUT_G]  = {-1, -1}
+            [DROITE] = { 1,  0},
+            [BAS_DR] = { 1,  1},
+            [BAS] = { 0,  1},
+            [BAS_G] = {-1,  1},
+            [GAUCHE] = {-1,  0},
+            [HAUT_G] = {-1, -1}
     };
 
     // Liste des directions valides
@@ -108,21 +108,19 @@ t_direction choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean *ocea
     int nb_valides = 0;
 
     // Vérifier chaque direction possible
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; i++)
+    {
         t_direction dir = (t_direction)i;
         int nx = posx + deplacements[dir].dx;
         int ny = posy + deplacements[dir].dy;
-
-        // Vérifier si dans les limites et case vide
-        if (nx >= 0 && nx < LARGEUR && ny >= 0 && ny < HAUTEUR &&
-            (*ocean)[ny][nx].contenu == VIDE) {
-            directions_valides[nb_valides] = dir;
-            nb_valides++;
-        }
+        
+        directions_valides[nb_valides] = dir;
+        nb_valides++;
     }
 
     // Si aucune direction valide
-    if (nb_valides == 0) {
+    if (nb_valides == 0)
+    {
         *newx = posx;
         *newy = posy;
         return (t_direction)0; // Retourne une valeur par défaut
@@ -137,7 +135,7 @@ t_direction choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean *ocea
 
     return choix;
 }
-int dessiner_ocean(t_ocean *ocean, int temps) {
+int dessiner_ocean(t_ocean* ocean, int temps) {
     // Initialisation des compteurs
     int nb_proies = 0;
     int nb_preds = 0;
@@ -151,23 +149,19 @@ int dessiner_ocean(t_ocean *ocean, int temps) {
     effacer_zone_environnement(HAUTEUR, LARGEUR);
 
     // Dessiner chaque case
-    for (int y = 0; y < HAUTEUR; y++) {
-        for (int x = 0; x < LARGEUR; x++) {
-            // Déterminer la couleur
-            int couleur;
-            switch ((*ocean)[y][x].contenu) {
-                case POISSON:
-                    couleur = COLOR_BLEU;
-                    nb_proies++;
-                    break;
-                case REQUIN:
-                    couleur = COLOR_ROUGE;
-                    nb_preds++;
-                    break;
-                default:
-                    couleur = COLOR_NOIR;
-                    break;
-            }
+    for (int y = 0; y < HAUTEUR; y++)
+    {
+        for (int x = 0; x < LARGEUR; x++)
+        {
+            // Utiliser un tableau pour stocker les couleurs et les compteurs
+            static const int couleurs[] = { COLOR_NOIR, COLOR_BLEU, COLOR_ROUGE };
+            static const int increments[] = { 0, 1, 1 }; // Incrément pour nb_proies et nb_preds
+
+            // Déterminer la couleur et mettre à jour les compteurs
+            int contenu = (*ocean)[y][x].contenu;
+            int couleur = couleurs[contenu];
+            if (contenu == POISSON) nb_proies += increments[contenu];
+            else if (contenu == REQUIN) nb_preds += increments[contenu];
 
             // Dessiner un cercle
             afficher_case(y, x, HAUTEUR, LARGEUR, couleur);
