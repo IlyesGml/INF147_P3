@@ -2,7 +2,7 @@
  * @file main.c
  * @brief
  * @ Modified by: Your name
- * @ Modified time: 2025-04-11 13:31:02
+ * @ Modified time: 2025-04-11 16:56:15
  */
 
 #include "main.h"
@@ -737,10 +737,11 @@ int main_debug() {
 #endif
 #ifdef TEST_PREDATEUR_POISSON_OFFICIAL
     int temps = 0;
+    bool nopoisson, norequin, exit = false;
     printf("=== FINAL TEST ===\n");
     t_liste_requin* liste_requin = NULL;
     t_liste_poisson* liste_poisson = NULL;
-    
+
     printf("\nadresse de la tete de poisson %p:\n", (void*)&liste_poisson);
     printf("\nadresse de la tete de requin %p:\n", (void*)&liste_requin);
 
@@ -748,42 +749,54 @@ int main_debug() {
     vider_ocean(&ocean);
 
     printf("Inserez le nombre de poissons a initialiser :\n");
-    printf("Resultat: %s\n",  initialise_poisson(&liste_poisson, &ocean, nombre_saisi()) ? "SUCCES" : "ECHEC");
+    printf("Resultat: %s\n", initialise_poisson(&liste_poisson, &ocean, nombre_saisi()) ? "SUCCES" : "ECHEC");
 
     printf("Inserez le nombre de requins a initialiser :\n");
     printf("Resultat: %s\n", initialise_requin(&liste_requin, &ocean, nombre_saisi()) ? "SUCCES" : "ECHEC");
 
-    
+
     dessiner_ocean(&ocean, temps++);
     delai_ecran(1000);
     printf("Appuyez sur Esc pour quitter le prog.\n");
     while (1) // Attendre l'appui sur la touche 'Esc'
     {
-
+        if ((liste_poisson))
+        {
             if (!deplacer_tout_les_poissons(&liste_poisson, &ocean))
             {
                 printf("ERREUR: fail deplacement poisson\n");
                 return ERROR;
             }
-
+            nouveau_poisson(&liste_poisson, &(liste_poisson->animal), &ocean);
+        }
+        else if (nopoisson == false)
+        {
+            nopoisson = true;
+            printf("Aucun poisson a deplacer.\n");
+        }
+        if ((liste_requin))
+        {
             if (!deplacer_tout_les_requins(&liste_requin, &ocean))
             {
                 printf("ERREUR: fail deplacement poisson\n");
                 return ERROR;
             }
+            nouveau_requin(&liste_requin, &(liste_requin->animal), &ocean);
+        }
+        else if (norequin == false)
+        {
+            norequin = true;
+            printf("Aucun requin a deplacer.\n");
+        }
 
         dessiner_ocean(&ocean, temps++);
-        delai_ecran(1000);
+            delai_ecran(100);
     }
-
-
 #endif
     printf("======= Fin du test =======\n");
-    system("pause");
+        system("pause");
     return 0;
 }
-
-
 int main_init(void)
 {
     init_alea();
@@ -793,12 +806,10 @@ int main_init(void)
 #endif
     return 0;
 }
-#elif TP3
+#elif defined (TP3)
 int main_init(void)
 {
     init_alea();
-    init_graphe(HAUTEUR, LARGEUR);
-    init_zone_environnement(HAUTEUR, LARGEUR);
     return 0;
 }
 #endif
@@ -809,10 +820,190 @@ int main()
 #ifdef DEBUG
     printf("Debug version\n");
     return main_debug();
-#elif defined TP3
+#endif
+#ifdef TP3
     printf("TP3 version\n");
-    return 0
+    t_ocean ocean;
+    t_liste_poisson* liste_poisson = NULL;
+    t_liste_requin* liste_requin = NULL;
 
+    int mode_affichage = 1;
+    int iteration = 0;
+    vider_ocean(&ocean);
+
+    if (mode_affichage)
+    {
+        init_graphe(HAUTEUR, LARGEUR);
+        init_zone_environnement(HAUTEUR, LARGEUR);
+    }
+    if (!initialise_poisson(&liste_poisson, &ocean, NB_POISSON_INIT))
+    {
+        printf("Erreur lors de l'initialisation des poissons.\n");
+        return -1;
+    }
+    if (!initialise_requin(&liste_requin, &ocean, NB_REQUIN_INIT))
+    {
+        printf("Erreur lors de l'initialisation des requins.\n");
+        return -1;
+    }
+
+    int simulation_active = 1;
+    while (simulation_active && iteration < MAX_ITER && (liste_poisson) && (liste_requin))
+    {
+        iteration++;
+        if (liste_poisson)
+        {
+            t_noeud* courant = liste_poisson;
+            while (courant != NULL)
+            {
+                inc_age(&(courant->animal), NB_JRS_PUB_POISSON);
+                if (liste_poisson != NULL)
+                {
+                    if (!deplacer_poisson_1_case(courant, &ocean))
+                    {
+                        printf("Erreur lors du déplacement du poisson. Il n'y a pas de poisson a deplacer\n");
+                        return -1;
+                    }
+                    if (puberte_atteinte(&(courant->animal), NB_JRS_PUB_POISSON, NB_JRS_GEST_POISSON))
+                        nouveau_poisson(&liste_poisson, &(courant->animal), &ocean);
+
+                }
+                courant = courant->suivant;
+            }
+        }
+        if (liste_requin)
+        {
+            t_noeud* courant = liste_requin;
+            while (courant)
+            {
+                inc_age(&(courant->animal), NB_JRS_PUB_REQUIN);
+                dec_energie(&(courant->animal));
+                if (liste_requin)
+                {
+                    if (puberte_atteinte(&(courant->animal), NB_JRS_PUB_REQUIN, NB_JRS_GEST_REQUIN))
+                    {
+                        nouveau_requin(&liste_requin, &(courant->animal), &ocean);
+                    }
+                    else
+                    {
+                        deplacer_requin_1_case(courant, &ocean);
+                    }
+                }
+                courant = courant->suivant;
+            }
+        }
+        if (liste_poisson)
+        {
+            t_noeud* courant = liste_requin;
+            while (courant)
+            {
+                int rx = courant->animal.posx;
+                int ry = courant->animal.posy;
+
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        if (dx == 0 && dy == 0) continue;
+                        int nx = rx + dx;
+                        int ny = ry + dy;
+
+                        if (nx >= 0 && nx < LARGEUR && ny >= 0 && ny < HAUTEUR)
+                        {
+                            if ((ocean)[ny][nx].contenu == POISSON)
+                            {
+                                t_noeud* poissonNode = (t_noeud*)(ocean)[ny][nx].animal;
+
+                                if (poissonNode != NULL)
+                                {
+                                    supprimerAnimal((t_noeud**)&liste_poisson, poissonNode);
+                                    effacer_contenu_case_grille(nx, ny, &ocean);
+                                    ajout_energie(&(courant->animal), ENERGIE_DIGESTION);
+                                }
+                            }
+                        }
+                    }
+                }
+                courant = courant->suivant;
+            }
+        }
+        if (liste_poisson)
+        {
+            t_noeud* courant = liste_poisson;
+            while (courant)
+            {
+                t_noeud* suivant = courant->suivant;
+                if (est_mort(&(courant->animal), MAX_AGE_POISSON))
+                {
+                    int px = courant->animal.posx;
+                    int py = courant->animal.posy;
+                    supprimerAnimal((t_noeud**)&liste_poisson, courant);
+                    effacer_contenu_case_grille(px, py, &ocean);
+                }
+                courant = suivant;
+            }
+        }
+        if (liste_requin)
+        {
+            t_noeud* courant = liste_requin;
+            while (courant)
+            {
+                t_noeud* suivant = courant->suivant;
+                if (est_mort(&(courant->animal), MAX_AGE_REQUIN))
+                {
+                    int rx = courant->animal.posx;
+                    int ry = courant->animal.posy;
+                    supprimerAnimal((t_noeud**)&liste_requin, courant);
+                    effacer_contenu_case_grille(rx, ry, &ocean);
+                }
+                courant = suivant;
+            }
+        }
+
+        if (mode_affichage)
+        {
+            dessiner_ocean(&ocean, iteration);
+        }
+        else
+        {
+            // Vous pouvez intégrer ici le code d'écriture dans un fichier (.dat)
+        }
+
+        if (touche_pesee())
+        {
+            int touche = obtenir_touche();
+            if (touche == TOUCHE_ESC)
+            {
+                simulation_active = 0;
+            }
+        }
+    }
+
+    if (liste_poisson == NULL)
+    {
+        printf("Simulation arrêtée : extinction des poissons après %d itérations.\n", iteration);
+    }
+    else if (liste_requin == NULL)
+    {
+        printf("Simulation arrêtée : extinction des requins après %d itérations.\n", iteration);
+    }
+    else if (iteration >= MAX_ITER)
+    {
+        printf("Simulation terminée normalement après %d itérations.\n", iteration);
+    }
+    else
+    {
+        printf("Simulation arrêtée par l'utilisateur après %d itérations.\n", iteration);
+    }
+
+    if (mode_affichage)
+    {
+        fermer_mode_graphique();
+    }
+
+    libererListe(liste_poisson);
+    libererListe(liste_requin);
+    return 0;
 #else
     printf("No configuration defined!\n");
     return 1; // Error code

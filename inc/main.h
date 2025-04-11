@@ -2,7 +2,7 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-11 13:30:52
+ * @ Modified time: 2025-04-11 16:59:14
  * @ Description: idk
  */
 
@@ -21,6 +21,7 @@
  #include <stdlib.h>
  #include <unistd.h>
  #include <conio.h>
+ 
  #elif defined(CLION)
  //insert your includes here >anthony
  #include <windows.h>
@@ -50,7 +51,7 @@
  //int main();
  int main_init(void);
  /***********************  <   VERSION  >    ********************************/
- #define DEBUG
+ //#define DEBUG
  
  #ifndef DEBUG
  #define TP3

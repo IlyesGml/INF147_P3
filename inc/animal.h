@@ -58,4 +58,8 @@ int  get_energie(t_animal *animal);
    OU si il a atteint son �ge maximal (age_max). On retourne 0 sinon.  */
 int  est_mort(const t_animal *animal, int age_max);
 
+#define MAX_ITER 5000
+#define NB_POISSON_INIT 1
+#define NB_REQUIN_INIT 1
+
 #endif

@@ -6,8 +6,7 @@
 
 int initialise_requin(t_liste_requin** tete_requin, t_ocean* ocean, int quantite) {
     // Verification des entrees
-    if (quantite < 0) return 0;
-    if (quantite == 0) return 1;  // Rien a faire
+    if (quantite <= 0) return 0;
 #ifdef DEBUG
     printf("Debut initialisation de %d requins...\n", quantite);
 #endif
