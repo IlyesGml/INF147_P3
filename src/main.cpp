@@ -2,7 +2,7 @@
  * @file main.c
  * @brief
  * @ Modified by: Your name
- * @ Modified time: 2025-04-11 15:50:45
+ * @ Modified time: 2025-04-11 16:56:15
  */
 
 #include "main.h"
@@ -737,7 +737,7 @@ int main_debug() {
 #endif
 #ifdef TEST_PREDATEUR_POISSON_OFFICIAL
     int temps = 0;
-    bool nopoisson,norequin,exit = false;
+    bool nopoisson, norequin, exit = false;
     printf("=== FINAL TEST ===\n");
     t_liste_requin* liste_requin = NULL;
     t_liste_poisson* liste_poisson = NULL;
@@ -769,7 +769,7 @@ int main_debug() {
             }
             nouveau_poisson(&liste_poisson, &(liste_poisson->animal), &ocean);
         }
-        else if ((liste_poisson) && (nopoisson == false))
+        else if (nopoisson == false)
         {
             nopoisson = true;
             printf("Aucun poisson a deplacer.\n");
@@ -783,18 +783,18 @@ int main_debug() {
             }
             nouveau_requin(&liste_requin, &(liste_requin->animal), &ocean);
         }
-        else if ((liste_requin) && (norequin == false))
+        else if (norequin == false)
         {
             norequin = true;
             printf("Aucun requin a deplacer.\n");
         }
 
         dessiner_ocean(&ocean, temps++);
-        delai_ecran(100);
+            delai_ecran(100);
     }
 #endif
     printf("======= Fin du test =======\n");
-    system("pause");
+        system("pause");
     return 0;
 }
 int main_init(void)
@@ -820,128 +820,121 @@ int main()
 #ifdef DEBUG
     printf("Debug version\n");
     return main_debug();
-#elif defined TP3
+#endif
+#ifdef TP3
     printf("TP3 version\n");
-    /*
- Définition des macros et variable local utiliser dans l'algorithme
- */
+    t_ocean ocean;
+    t_liste_poisson* liste_poisson = NULL;
+    t_liste_requin* liste_requin = NULL;
 
-    t_ocean ocean;                                              // Initialiser le struct ocean
-    t_liste_poisson* liste_poisson = NULL;                      // Avoir une liste vide pour poisson
-    t_liste_requin* liste_requin = NULL;                        // Avoir une liste vide pour requin
-    int mode_affichage = 1;          // 1 = mode graphique, 0 = mode fichier.dat
-    int iteration = 0;           // nombre d'itération
+    int mode_affichage = 1;
+    int iteration = 0;
+    vider_ocean(&ocean);
 
-    vider_ocean(&ocean);          // Initialisation de l’océan
-
-    // S'il y a un erreur lors de "initialise_poisson" faire ce boucle
-    if (!initialise_poisson(&liste_poisson, &ocean, NB_POISSON_INIT)) {
-        printf("Erreur lors de l'initialisation des poissons.\n");  // Message d'erreur
-        return -1;              // Returne echec
-    }
-    // S'il y a un erreur lors de "initialise_requin" faire ce boucle
-    if (!initialise_requin(&liste_requin, &ocean, NB_REQUIN_INIT)) {
-        printf("Erreur lors de l'initialisation des requins.\n");  // Message d'erreur
-        return -1;              // Returne echec
-    }
-
-    if (mode_affichage) {          // User décide de rentrer dans le mode graphique
-        init_graphe(HAUTEUR, LARGEUR);       // Initialiser le graphique
-        init_zone_environnement(HAUTEUR, LARGEUR);    // Initialiser le zone d'affichage (Frame)
-    }
-
-    // Boucle principale de simulation
-    int simulation_active = 1;
-    while (simulation_active && iteration < MAX_ITER   // Faire ce boucle jusqu'a tant qu'on atteint le MAX_ITER itérations
-           && (liste_poisson != NULL)        // Faire ce boucle jusqu'a tant qu'il n'y a plus de poisson
-           && (liste_requin != NULL))        // Faire ce boucle jusqu'a tant qu'il n'y a plus de requin
+    if (mode_affichage)
     {
-        iteration++;           // Incrémente le compteur de jours
+        init_graphe(HAUTEUR, LARGEUR);
+        init_zone_environnement(HAUTEUR, LARGEUR);
+    }
+    if (!initialise_poisson(&liste_poisson, &ocean, NB_POISSON_INIT))
+    {
+        printf("Erreur lors de l'initialisation des poissons.\n");
+        return -1;
+    }
+    if (!initialise_requin(&liste_requin, &ocean, NB_REQUIN_INIT))
+    {
+        printf("Erreur lors de l'initialisation des requins.\n");
+        return -1;
+    }
 
-        /*
-        Mise à jour et comportement des poissons
-        */
+    int simulation_active = 1;
+    while (simulation_active && iteration < MAX_ITER && (liste_poisson) && (liste_requin))
+    {
+        iteration++;
+        if (liste_poisson)
         {
-            t_noeud* courant = liste_poisson;       // Pointeur au premier poisson de la liste
-            while (courant != NULL) {         // Boucle jusqu'a la fin de la liste de poisson
-                inc_age(&(courant->animal), NB_JRS_PUB_POISSON);  // Incrémenter l'age et nombre de jours de gestation (si deja adult)
-                if(liste_poisson != NULL){
-                if (puberte_atteinte(&(courant->animal), NB_JRS_PUB_POISSON, NB_JRS_GEST_POISSON)) {    // Si poisson atteint la puberté faire ce boucle
-                    nouveau_poisson(&liste_poisson, &(courant->animal), &ocean);        // Faire bébé
-                }
-                else {
-                    deplacer_poisson_1_case(courant, &ocean);
+            t_noeud* courant = liste_poisson;
+            while (courant != NULL)
+            {
+                inc_age(&(courant->animal), NB_JRS_PUB_POISSON);
+                if (liste_poisson != NULL)
+                {
+                    if (!deplacer_poisson_1_case(courant, &ocean))
+                    {
+                        printf("Erreur lors du déplacement du poisson. Il n'y a pas de poisson a deplacer\n");
+                        return -1;
+                    }
+                    if (puberte_atteinte(&(courant->animal), NB_JRS_PUB_POISSON, NB_JRS_GEST_POISSON))
+                        nouveau_poisson(&liste_poisson, &(courant->animal), &ocean);
 
                 }
-
-
-                }
-                else {printf("erreur");}
-                courant = courant->suivant;        // Aller au prochain poisson de la liste
+                courant = courant->suivant;
             }
         }
-
-        /*
-        Mise à jour et comportement des requins
-        */
+        if (liste_requin)
         {
-            t_noeud* courant = liste_requin;       // Pointeur au premier requin de la liste
-            while (courant != NULL) {         // Boucle jusqu'a la fin de la liste de requin
-                inc_age(&(courant->animal), NB_JRS_PUB_REQUIN);   // Incrémenter l'age et nombre de jours de gestation (si deja adult)
-                dec_energie(&(courant->animal));      // Réduiu l'énergie du requin
-                if(liste_requin != NULL) {
-                if (puberte_atteinte(&(courant->animal), NB_JRS_PUB_REQUIN, NB_JRS_GEST_REQUIN)) {    // Si requin atteint la puberté faire ce boucle
-                    nouveau_requin(&liste_requin, &(courant->animal), &ocean);         // Faire bébé
+            t_noeud* courant = liste_requin;
+            while (courant)
+            {
+                inc_age(&(courant->animal), NB_JRS_PUB_REQUIN);
+                dec_energie(&(courant->animal));
+                if (liste_requin)
+                {
+                    if (puberte_atteinte(&(courant->animal), NB_JRS_PUB_REQUIN, NB_JRS_GEST_REQUIN))
+                    {
+                        nouveau_requin(&liste_requin, &(courant->animal), &ocean);
+                    }
+                    else
+                    {
+                        deplacer_requin_1_case(courant, &ocean);
+                    }
                 }
-                else {
-                    deplacer_requin_1_case(courant, &ocean);   // Sinon, déplacer le requin d'une case si position disponible
-                }
-                }
-                //else {printf("erreur");}
-
-                courant = courant->suivant;        // Aller au prochain requin de la liste
+                courant = courant->suivant;
             }
         }
-
-
-        /*
-        Section ou les requin mange les poissons!
-        */
+        if (liste_poisson)
         {
-            t_noeud* courant = liste_requin;       // Pointeur au premier requin de la liste
-            while (courant != NULL) {         // Boucle jusqu'a la fin de la liste de requin
-                int rx = courant->animal.posx;          // Position en X du requin
-                int ry = courant->animal.posy;             // Position en y du requin
+            t_noeud* courant = liste_requin;
+            while (courant)
+            {
+                int rx = courant->animal.posx;
+                int ry = courant->animal.posy;
 
-                for (int dx = -1; dx <= 1; dx++) {      // Parcours des 8 cases de x autour du requin (9-1=8)
-                    for (int dy = -1; dy <= 1; dy++) {     // Parcours des 8 cases de y autour du requin (9-1=8)
-                        if (dx == 0 && dy == 0) continue;    // Ignorer la case du millieux (lui)
-                        int nx = rx + dx;        // Position X de la case voisine
-                        int ny = ry + dy;        // Position y de la case voisine
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    for (int dy = -1; dy <= 1; dy++)
+                    {
+                        if (dx == 0 && dy == 0) continue;
+                        int nx = rx + dx;
+                        int ny = ry + dy;
 
-                        if (nx >= 0 && nx < LARGEUR && ny >= 0 && ny < HAUTEUR) {   // Vérifier que les cases voisine son dans la limite de l'ocean
-                            if ((ocean)[ny][nx].contenu == POISSON) {      // Si la case voisine à un poisson faire ce boucle
-                                t_noeud* poissonNode = (t_noeud*)(ocean)[ny][nx].animal;   // Récupérer le noeud du poisson stocké dans la grille
+                        if (nx >= 0 && nx < LARGEUR && ny >= 0 && ny < HAUTEUR)
+                        {
+                            if ((ocean)[ny][nx].contenu == POISSON)
+                            {
+                                t_noeud* poissonNode = (t_noeud*)(ocean)[ny][nx].animal;
 
-                                if (poissonNode != NULL) {              // Si dans la case voisine il y a un poisson faire ce boucle
-                                    supprimerAnimal((t_noeud**)&liste_poisson, poissonNode);     // Supprimer le poisson de la liste
-                                    effacer_contenu_case_grille(nx, ny, &ocean);        // Rendre la case vide dans l'ocean
-                                    ajout_energie(&(courant->animal), ENERGIE_DIGESTION);      // Augmenter l'energie du requin
+                                if (poissonNode != NULL)
+                                {
+                                    supprimerAnimal((t_noeud**)&liste_poisson, poissonNode);
+                                    effacer_contenu_case_grille(nx, ny, &ocean);
+                                    ajout_energie(&(courant->animal), ENERGIE_DIGESTION);
                                 }
                             }
                         }
                     }
                 }
-                courant = courant->suivant;        // Incrémenter courant au prochain noeud de la liste
+                courant = courant->suivant;
             }
         }
-
-        // 4. Suppression des poissons morts par vieillesse ou manque d'énergie
+        if (liste_poisson)
         {
             t_noeud* courant = liste_poisson;
-            while (courant != NULL) {
+            while (courant)
+            {
                 t_noeud* suivant = courant->suivant;
-                if (est_mort(&(courant->animal), MAX_AGE_POISSON)) {
+                if (est_mort(&(courant->animal), MAX_AGE_POISSON))
+                {
                     int px = courant->animal.posx;
                     int py = courant->animal.posy;
                     supprimerAnimal((t_noeud**)&liste_poisson, courant);
@@ -950,13 +943,14 @@ int main()
                 courant = suivant;
             }
         }
-
-        // 5. Suppression des requins morts par vieillesse ou suite à un jeûne prolongé
+        if (liste_requin)
         {
             t_noeud* courant = liste_requin;
-            while (courant != NULL) {
+            while (courant)
+            {
                 t_noeud* suivant = courant->suivant;
-                if (est_mort(&(courant->animal), MAX_AGE_REQUIN)) {
+                if (est_mort(&(courant->animal), MAX_AGE_REQUIN))
+                {
                     int rx = courant->animal.posx;
                     int ry = courant->animal.posy;
                     supprimerAnimal((t_noeud**)&liste_requin, courant);
@@ -966,45 +960,47 @@ int main()
             }
         }
 
-        // 6. Mise à jour de l'affichage ou écriture dans un fichier
-        if (mode_affichage) {
+        if (mode_affichage)
+        {
             dessiner_ocean(&ocean, iteration);
-            // Petite pause pour permettre la visualisation
-            //delai_ecran(50);
         }
-        else {
+        else
+        {
             // Vous pouvez intégrer ici le code d'écriture dans un fichier (.dat)
         }
 
-        // 7. Vérification d'une demande de sortie par l'utilisateur (<ESC>)
-        if (touche_pesee()) {
+        if (touche_pesee())
+        {
             int touche = obtenir_touche();
-            if (touche == TOUCHE_ESC) {
+            if (touche == TOUCHE_ESC)
+            {
                 simulation_active = 0;
             }
         }
-    } // Fin de la boucle de simulation
+    }
 
-    // Affichage du motif d'arrêt de la simulation
-    if (liste_poisson == NULL) {
+    if (liste_poisson == NULL)
+    {
         printf("Simulation arrêtée : extinction des poissons après %d itérations.\n", iteration);
     }
-    else if (liste_requin == NULL) {
+    else if (liste_requin == NULL)
+    {
         printf("Simulation arrêtée : extinction des requins après %d itérations.\n", iteration);
     }
-    else if (iteration >= MAX_ITER) {
+    else if (iteration >= MAX_ITER)
+    {
         printf("Simulation terminée normalement après %d itérations.\n", iteration);
     }
-    else {
+    else
+    {
         printf("Simulation arrêtée par l'utilisateur après %d itérations.\n", iteration);
     }
 
-    // Fermer le mode graphique si nécessaire
-    if (mode_affichage) {
+    if (mode_affichage)
+    {
         fermer_mode_graphique();
     }
 
-    // Libération des listes de poissons et de requins
     libererListe(liste_poisson);
     libererListe(liste_requin);
     return 0;

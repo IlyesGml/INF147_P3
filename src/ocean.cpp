@@ -168,7 +168,7 @@ int dessiner_ocean(t_ocean* ocean, int temps) {
     afficher_infos(temps, nb_proies, nb_preds);
 
     // Pause de 10ms
-    delai_ecran(10);
+    delai_ecran(1);
 
     return 1;
 }

@@ -2,7 +2,7 @@
  * @ Author: Ilyes Gharmoul
  * @ Create Time: 2025-02-18 19:04:25
  * @ Modified by: Your name
- * @ Modified time: 2025-04-11 15:47:09
+ * @ Modified time: 2025-04-11 16:53:15
  * @ Description: idk
  */
 
@@ -51,7 +51,7 @@
  //int main();
  int main_init(void);
  /***********************  <   VERSION  >    ********************************/
- //#define DEBUG
+ #define DEBUG
  
  #ifndef DEBUG
  #define TP3
