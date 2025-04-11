@@ -92,6 +92,14 @@ int mort_poisson(t_liste_poisson** liste, t_ocean* ocean);
  * @param position Position du poisson à retirer.
  */
 int compter_poissons(t_liste_poisson* liste);
-
+/**
+ * @brief Déplace tous les poissons de la liste.
+ * 
+ * Cette fonction déplace tous les poissons de la liste dans l'océan.
+ * 
+ * @param liste Pointeur vers la liste des poissons à déplacer.
+ * @param ocean Pointeur vers l'océan où déplacer les poissons.
+ */
+int deplacer_tout_les_poissons(t_liste_poisson** liste, t_ocean* ocean);
 
 #endif // POISSON_H

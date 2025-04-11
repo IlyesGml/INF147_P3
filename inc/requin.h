@@ -88,4 +88,14 @@ int mort_requin(t_liste_requin** liste, t_ocean* ocean);
  */
 int compter_requins(t_liste_requin* liste);
 
+/**
+ * @brief Déplace tous les requins de la liste d'une case dans l'océan.
+ *
+ * Cette fonction déplace tous les requins de la liste d'une case dans l'océan.
+ *
+ * @param liste Pointeur vers la tête de la liste des requins à déplacer.
+ * @param ocean Pointeur vers l'océan où les requins se déplacent.
+ * @return Code de succès ou d'erreur.
+ */
+int deplacer_tout_les_requins (t_liste_requin** liste, t_ocean* ocean);
 #endif // REQUIN_H

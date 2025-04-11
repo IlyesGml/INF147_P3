@@ -99,7 +99,7 @@ int nombre_case_voisine_libre(int posx, int posy, t_ocean *ocean);
  * This function identifies all valid empty neighboring cells, selects one randomly, and updates
  * the new coordinates. If no empty cells are found, it returns the original coordinates and direction 0.
  */
-t_direction choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean *ocean, int *newx, int *newy);
+int choix_aleatoire_case_voisine_libre(int posx, int posy, t_ocean* ocean, int* newx, int* newy);
 
 /**
  * @brief Displays the current state of the ocean grid graphically.
