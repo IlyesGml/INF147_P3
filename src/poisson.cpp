@@ -56,33 +56,32 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
 }
 
 int deplacer_poisson_1_case(t_noeud* poisson, t_ocean* ocean) {
+    if (!poisson || !ocean) return 0;
+
     int posx_temp = poisson->animal.posx;
     int posy_temp = poisson->animal.posy;
     int nouvelle_posx, nouvelle_posy;
 
-    // Choix aleatoire d'une case voisine
-    if (!choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy));
-    return 0; // Echec
-
-    // Mise a jour de la grille
-    if (!inserer_contenu_pointeur_case_grille(nouvelle_posx, nouvelle_posy, ocean, POISSON, &(poisson->animal)))
-    {
-        return 0; // Echec
+   if(!choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy))
+   {
+       //printf("deplacement impossible");
+       return 0;
+   }
+    // Mise à jour de la grille
+    if (!inserer_contenu_pointeur_case_grille(nouvelle_posx, nouvelle_posy, ocean, POISSON, &(poisson->animal))) {
+        return 0;
     }
-
-    // Mise a jour des coordonnees
+    // Mise à jour des coordonnées
     poisson->animal.posx = nouvelle_posx;
     poisson->animal.posy = nouvelle_posy;
-
     // Nettoyage ancienne position
-    if (!effacer_contenu_case_grille(posx_temp, posy_temp, ocean))
-    {
-        // Si d'echec, annuler deplacement
+    if (!effacer_contenu_case_grille(posx_temp, posy_temp, ocean)) {
         effacer_contenu_case_grille(nouvelle_posx, nouvelle_posy, ocean);
         poisson->animal.posx = posx_temp;
         poisson->animal.posy = posy_temp;
         return 0;
     }
+
     return 1;
 }
 
