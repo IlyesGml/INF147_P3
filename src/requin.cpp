@@ -169,6 +169,24 @@ int nouveau_requin(t_liste_requin** liste, t_animal* parent, t_ocean* ocean) {
     return 1;
 }
 
+int deplacer_tout_les_requins (t_liste_requin** liste, t_ocean* ocean) {
+    // Verification des parametres
+    if (liste == NULL || ocean == NULL)
+    {
+        #ifdef DEBUG
+        fprintf(stderr, "Parametres invalides\n");
+        #endif
+        return 0;
+    }
+    t_liste_requin* courant = *liste;
+    // Parcours de toute la liste
+    while (courant != NULL)
+    {
+        if (deplacer_requin_1_case(courant, ocean))
+        courant = courant->suivant;
+    }
+    return 1;
+}
 
 int mort_requin(t_liste_requin** liste, t_ocean* ocean) {
     // Verification des parametres

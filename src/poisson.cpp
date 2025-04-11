@@ -6,8 +6,7 @@
 
 int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quantite) {
     // Verification des entrees
-    if ((quantite < 0)||(quantite > MAX_POISSON)) return 0;
-    if (quantite == 0) return 1;  // Rien a faire
+    if ((quantite <= 0)||(quantite > MAX_POISSON)) return 0;
 #ifdef DEBUG
     printf("Debut initialisation de %d poissons...\n", quantite);
 #endif
@@ -16,12 +15,9 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
 
     for (int i = 0; i < quantite; i++)
     {
-        // Initialisation des proprietes du poisson
         poisson.age = alea(0, MAX_AGE_POISSON);
         poisson.energie_sante = alea(1, ENERGIE_INIT_POISSON);
         poisson.jrs_gest = 0;
-
-        // Recherche d'une position vide
         int essais = 0;
         int position_trouvee = 0;
 
@@ -29,15 +25,10 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
         {
             poisson.posx = alea(0, LARGEUR - 1);
             poisson.posy = alea(0, HAUTEUR - 1);
-
             if ((*ocean)[poisson.posy][poisson.posx].contenu == VIDE)
-            {
                 position_trouvee = 1;
-            }
             essais++;
         }
-
-        // Si pas de position vide trouvee
         if (!position_trouvee)
         {
             #ifdef DEBUG
@@ -45,7 +36,6 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
             #endif
             return (poissons_places > 0) ? 1 : 0;
         }
-
         // Placement du poisson
         (*ocean)[poisson.posy][poisson.posx].contenu = POISSON;
         t_liste_poisson* nouveau = insererEnTete(tete_poisson, poisson);
@@ -56,7 +46,6 @@ int initialise_poisson(t_liste_poisson** tete_poisson, t_ocean* ocean, int quant
             #endif
             return (poissons_places > 0) ? 1 : 0;
         }
-
         (*ocean)[poisson.posy][poisson.posx].animal = nouveau;
         poissons_places++;
     }
@@ -120,6 +109,25 @@ int deplacer_poisson_1_case(t_noeud* poisson, t_ocean* ocean) {
         return 0;
     }
 
+    return 1;
+}
+
+int deplacer_tout_les_poissons (t_liste_poisson** liste, t_ocean* ocean) {
+    // Verification des parametres
+    if (liste == NULL || ocean == NULL)
+    {
+        #ifdef DEBUG
+        fprintf(stderr, "Parametres invalides\n");
+        #endif
+        return 0;
+    }
+    t_liste_poisson* courant = *liste;
+    // Parcours de toute la liste
+    while (courant != NULL)
+    {
+        if (deplacer_poisson_1_case(courant, ocean))
+        courant = courant->suivant;
+    }
     return 1;
 }
 
