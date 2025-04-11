@@ -2,7 +2,7 @@
  * @file main.c
  * @brief
  * @ Modified by: Your name
- * @ Modified time: 2025-04-10 19:55:34
+ * @ Modified time: 2025-04-10 20:22:43
  */
 
 #include "main.h"
@@ -740,7 +740,8 @@ int main_debug() {
     printf("=== FINAL TEST ===\n");
     t_liste_requin* liste_requin = NULL;
     t_liste_poisson* liste_poisson = NULL;
-
+    t_noeud* courantP = liste_poisson;
+    t_noeud* courantR = liste_requin;
     t_ocean ocean;
     vider_ocean(&ocean);
     printf("Inserez le nombre de poissons a initialiser :\n");
@@ -749,9 +750,28 @@ int main_debug() {
     printf("Inserez le nombre de requins a initialiser :\n");
     result = initialise_requin(&liste_requin, &ocean, nombre_saisi());
     printf("Resultat: %s\n", result ? "SUCCES" : "ECHEC");
-
     dessiner_ocean(&ocean, temps++);
     delai_ecran(1000);
+    printf("Appuyez sur Esc pour quitter le prog.\n");
+    while (1)
+    {
+        if (!deplacer_poisson_1_case(courantP, &ocean))
+        {
+            printf("ERREUR: fail deplacement poisson\n");
+            return ERROR;
+        }
+        dessiner_ocean(&ocean, temps++);
+        delai_ecran(1000);
+        courantP = obtenir_prochain(courantP);
+        if (!deplacer_requin_1_case(courantR, &ocean))
+        {
+            printf("ERREUR: fail deplacement requin\n");
+            return ERROR;
+        }
+        dessiner_ocean(&ocean, temps++);
+        delai_ecran(1000);
+        courantR = obtenir_prochain(courantR);
+    }
 
 
 #endif
