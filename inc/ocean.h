@@ -8,7 +8,7 @@
 #define MAX_ESSAIS LARGEUR* HAUTEUR
 
 /* Type énuméré pour les 8 directions de déplacement */
-typedef enum {HAUT, HAUT_DR, DROITE, BAS_DR, BAS, BAS_G, GAUCHE, HAUT_G} t_direction;
+typedef enum {IMPOSSIBLE=-1,HAUT, HAUT_DR, DROITE, BAS_DR, BAS, BAS_G, GAUCHE, HAUT_G} t_direction;
 
 /* Type énuméré pour le contenu d'une case */
 typedef enum {VIDE, POISSON, REQUIN} t_contenu;

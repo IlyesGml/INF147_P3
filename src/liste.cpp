@@ -33,7 +33,9 @@ t_noeud* insererEnTete(t_liste** tete, t_animal animal)
     t_noeud* nouveau_noeud = creer_noeud(animal);
     if (nouveau_noeud == NULL)
     {
+#ifdef DEBUG
         printf("Erreur d'allocation de mémoire pour le noeud.\n");
+#endif
         return NULL;
     }
     if (*tete == NULL)
@@ -57,7 +59,9 @@ void supprimerEnTete(t_liste** liste)
 {
     if (*liste == NULL)
     {
+#ifdef DEBUG
         printf("Erreur : la liste est vide.\n");
+#endif
         return;
     }
     t_noeud* noeud_a_supprimer = *liste;
@@ -142,7 +146,9 @@ t_noeud* insererEnFin(t_liste** liste, t_animal animal)
     t_liste* nouveau_noeud = creer_noeud(animal);
     if (nouveau_noeud == NULL)
     {
+#ifdef DEBUG
         printf("Erreur d'allocation de memoire pour le noeud.\n");
+#endif
         return NULL;
     }
 
@@ -163,5 +169,14 @@ t_noeud* insererEnFin(t_liste** liste, t_animal animal)
     courant->suivant = nouveau_noeud;
     nouveau_noeud->precedent = courant;
     return nouveau_noeud;
+}
+
+t_noeud* obtenir_prochain(t_liste* liste)
+{
+    if (liste->suivant == NULL)
+    {
+        return NULL;
+    }
+    return liste->suivant;
 }
 

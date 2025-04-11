@@ -8,55 +8,65 @@ int initialise_requin(t_liste_requin** tete_requin, t_ocean* ocean, int quantite
     // Vérification des entrées
     if (quantite < 0) return 0;
     if (quantite == 0) return 1;  // Rien à faire
-
+#ifdef DEBUG
     printf("Début initialisation de %d requins...\n", quantite);
-
+#endif
     t_animal requin;
     int requins_places = 0;
 
-    for (int i = 0; i < quantite; i++) {
+    for (int i = 0; i < quantite; i++)
+    {
         // Initialisation des propriétés du requin
         requin.age = alea(0, MAX_AGE_REQUIN);
-        requin.energie_sante = alea(1, ENERGIE_DIGESTION*2);
-        requin.jrs_gest = (requin.age >= NB_JRS_PUB_REQUIN) ? (alea(1,NB_JRS_GEST_REQUIN)) : 0;
+        requin.energie_sante = alea(1, ENERGIE_DIGESTION * 2);
+        requin.jrs_gest = (requin.age >= NB_JRS_PUB_REQUIN) ? (alea(1, NB_JRS_GEST_REQUIN)) : 0;
 
         // Recherche d'une position vide
         int essais = 0;
         int position_trouvee = 0;
 
-        while (essais < MAX_ESSAIS && !position_trouvee) {
+        while (essais < MAX_ESSAIS && !position_trouvee)
+        {
             requin.posx = alea(0, LARGEUR - 1);
             requin.posy = alea(0, HAUTEUR - 1);
 
-            if ((*ocean)[requin.posy][requin.posx].contenu == VIDE) {
+            if ((*ocean)[requin.posy][requin.posx].contenu == VIDE)
+            {
                 position_trouvee = 1;
             }
             essais++;
         }
 
         // Si pas de position vide trouvée
-        if (!position_trouvee) {
+        if (!position_trouvee)
+        {
+            #ifdef DEBUG
             printf("Attention : seulement %d/%d requins placés\n", requins_places, quantite);
+            #endif
             return (requins_places > 0) ? 1 : 0;
         }
 
         // Placement du requin
         (*ocean)[requin.posy][requin.posx].contenu = REQUIN;
         t_liste_requin* nouveau = insererEnTete(tete_requin, requin);
-        if (nouveau == NULL) {
+        if (nouveau == NULL)
+        {
+            #ifdef DEBUG
             printf("Erreur mémoire !\n");
+            #endif
             return (requins_places > 0) ? 1 : 0;
         }
 
         (*ocean)[requin.posy][requin.posx].animal = nouveau;
         requins_places++;
     }
-
+    #ifdef DEBUG
     printf("%d requins initialisés avec succès\n", requins_places);
+    #endif
     return 1;
 }
 
-int deplacer_requin_1_case(t_noeud* requin, t_ocean *ocean) {
+int deplacer_requin_1_case(t_noeud* requin, t_ocean* ocean) {
     int posx_temp = requin->animal.posx;
     int posy_temp = requin->animal.posy;
     int nouvelle_posx, nouvelle_posy;
@@ -64,7 +74,8 @@ int deplacer_requin_1_case(t_noeud* requin, t_ocean *ocean) {
     int tentatives = 0;
     const int MAX_TENTATIVES = 8;
 
-    do {
+    do
+    {
         // Choix aléatoire d'une case voisine
         dir = choix_aleatoire_case_voisine_libre(posx_temp, posy_temp, ocean, &nouvelle_posx, &nouvelle_posy);
         tentatives++;
@@ -75,19 +86,22 @@ int deplacer_requin_1_case(t_noeud* requin, t_ocean *ocean) {
 
         // Vérifier si la case est valide et vide
         if (nouvelle_posy >= 0 && nouvelle_posy < HAUTEUR &&
-            (*ocean)[nouvelle_posy][nouvelle_posx].contenu == VIDE) {
+            (*ocean)[nouvelle_posy][nouvelle_posx].contenu == VIDE)
+        {
             break;
         }
 
         // Condition de sortie si trop de tentatives
-        if (tentatives >= MAX_TENTATIVES) {
+        if (tentatives >= MAX_TENTATIVES)
+        {
             return 0; // Échec du déplacement
         }
 
     } while (1);
 
     // Mise à jour de la grille
-    if (!inserer_contenu_pointeur_case_grille(nouvelle_posx, nouvelle_posy, ocean, REQUIN, &(requin->animal))) {
+    if (!inserer_contenu_pointeur_case_grille(nouvelle_posx, nouvelle_posy, ocean, REQUIN, &(requin->animal)))
+    {
         return 0;
     }
 
@@ -96,7 +110,8 @@ int deplacer_requin_1_case(t_noeud* requin, t_ocean *ocean) {
     requin->animal.posy = nouvelle_posy;
 
     // Nettoyage ancienne position
-    if (!effacer_contenu_case_grille(posx_temp, posy_temp, ocean)) {
+    if (!effacer_contenu_case_grille(posx_temp, posy_temp, ocean))
+    {
         // En cas d'échec, annuler le déplacement
         effacer_contenu_case_grille(nouvelle_posx, nouvelle_posy, ocean);
         requin->animal.posx = posx_temp;
@@ -112,7 +127,8 @@ int compter_requins(t_liste_requin* liste) {
     t_liste_requin* courant = liste;
 
     // Parcours de toute la liste
-    while (courant != NULL) {
+    while (courant != NULL)
+    {
         nb_requin++;
         courant = courant->suivant;
     }
@@ -123,7 +139,8 @@ int compter_requins(t_liste_requin* liste) {
 int nouveau_requin(t_liste_requin** liste, t_animal* parent, t_ocean* ocean) {
     // Recherche d'une case voisine libre
     int new_x, new_y;
-    if (choix_aleatoire_case_voisine_libre(parent->posx, parent->posy, ocean, &new_x, &new_y) == -1) {
+    if (choix_aleatoire_case_voisine_libre(parent->posx, parent->posy, ocean, &new_x, &new_y) == -1)
+    {
         return 0; // Aucune case libre
     }
 
@@ -139,7 +156,8 @@ int nouveau_requin(t_liste_requin** liste, t_animal* parent, t_ocean* ocean) {
     // Ajout du bébé à la liste des requins
     t_liste_requin* nouveau = insererEnTete(liste, bebe);
     if (!nouveau ||
-        !inserer_contenu_pointeur_case_grille(new_x, new_y, ocean, REQUIN, &(nouveau->animal))) {
+        !inserer_contenu_pointeur_case_grille(new_x, new_y, ocean, REQUIN, &(nouveau->animal)))
+    {
         if (nouveau) supprimerAnimal((t_noeud**)liste, (t_noeud*)nouveau);
         return 0;
     }
@@ -154,8 +172,11 @@ int nouveau_requin(t_liste_requin** liste, t_animal* parent, t_ocean* ocean) {
 
 int mort_requin(t_liste_requin** liste, t_ocean* ocean) {
     // Vérification des paramètres
-    if (liste == NULL || *liste == NULL || ocean == NULL) {
+    if (liste == NULL || *liste == NULL || ocean == NULL)
+    {
+        #ifdef DEBUG
         fprintf(stderr, "Paramètres invalides\n");
+        #endif
         return 0;
     }
 
@@ -166,8 +187,11 @@ int mort_requin(t_liste_requin** liste, t_ocean* ocean) {
     int posy = courant->animal.posy;
 
     // Vérification des coordonnées
-    if (posx < 0 || posx >= LARGEUR || posy < 0 || posy >= HAUTEUR) {
+    if (posx < 0 || posx >= LARGEUR || posy < 0 || posy >= HAUTEUR)
+    {
+        #ifdef DEBUG
         fprintf(stderr, "Coordonnées invalides (%d,%d)\n", posx, posy);
+        #endif
         return 0;
     }
 

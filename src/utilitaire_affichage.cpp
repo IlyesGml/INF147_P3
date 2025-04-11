@@ -6,6 +6,7 @@
 /*  Conception : Pierre Bélisle, Eric Thé                                     */
 /******************************************************************************/
 #include "main.h"
+#include "utilitaire_affichage.h"
 
 //La longueur des côtés des cases en pixel
 #define TAILLE_CASE_X 10  
@@ -132,4 +133,29 @@ int  obtenir_touche() {
 //******************************
 void fermer_mode_graphique() {
 	closegraph();
+}
+void draw_text(const char* s, int x0, int y0, int couleur)
+{
+    int x = x0;
+    for (; *s; s++) {
+        if (*s == ' ') {
+            x += CHAR_W + 1;  // espace
+        } else if (isupper((unsigned char)*s)) {
+            draw_char(*s, x, y0,couleur);
+            x += CHAR_W + 1;  // espacement entre lettres
+        }
+        // on peut g�rer minuscules, chiffres, etc. en �tendant la police
+    }	
+}
+void draw_char(char c, int x, int y, int couleur) {
+    if (!isupper((unsigned char)c)) return;
+    int idx = c - 'A';
+    for (int row = 0; row < CHAR_H; row++) {
+        for (int col = 0; col < CHAR_W; col++) {
+            // on teste le bit (1 = pixel plein)
+            if ( (font5x7[idx][row] >> (CHAR_W-1-col)) & 1 ) {
+                afficher_case(y + row, x + col, 1, 1, couleur);
+            }
+        }
+    }
 }
