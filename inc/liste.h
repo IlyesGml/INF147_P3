@@ -9,22 +9,28 @@
 
 #define MAX 100  // Taille maximale de la liste
 
-// Dï¿½finition de la structure de la liste statique
-typedef struct {
-    t_animal animal[MAX]; // Tableau contenant les ï¿½lï¿½ments
-    int taille;        // Nombre actuel d'ï¿½lï¿½ments dans la liste
+// Définition de la structure de la liste statique
+/**
+ * @brief structure représentant un noeud de la liste.
+ * @param animal t_animal représentant un objet poisson ou un requin.
+ * @param precedent Pointeur vers le noeud précédent.
+ * @param suivant Pointeur vers le noeud suivant.
+ */
+typedef struct t_noeud {
+    t_animal animal; // Tableau contenant les éléments
+    struct t_noeud* precedent;    // Pointeur vers le noeud précédent
+    struct t_noeud* suivant;        // Nombre actuel d'éléments dans la liste
 } t_liste;
 
-// Fonctions pour gï¿½rer la liste statique
-void init_liste(t_liste* l);
-int inserer(t_liste* l, t_animal valeur, int position);
-int supprimer(t_liste* l, int position);
-int obtenir(t_liste* l, int position, t_animal* valeur);
-void decalage_gauche(t_liste* l, int position);
-void decalage_droite(t_liste* l, int position);
-void afficher_liste(const t_liste* l);
-
-
+// Fonctions pour gérer la liste statique
+t_noeud* creer_noeud(t_animal animal);
+t_noeud* insererEnTete(t_liste** liste, t_animal animal);
+void supprimerEnTete(t_liste** liste);
+void supprimerAnimal(t_noeud** tete ,t_noeud* animal_to_kill);
+void libererListe(t_liste* liste);
+void afficherListe(t_liste* liste);
+t_noeud* insererEnFin(t_liste** liste, t_animal animal);
+t_noeud* obtenir_prochain(t_liste* liste);
 
 
 #endif // LISTE_H

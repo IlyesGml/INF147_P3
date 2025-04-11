@@ -1,91 +1,182 @@
 #include "main.h"
+#include "liste.h"
 
 // Initialisation de la liste vide
-void init_liste(t_liste* l) {
-    l->taille = 0;
+/**
+ * @brief créer une liste avec le premier animal.
+ *
+ * @param animal Poisson ou requin à ajouter à la première position de la liste.
+ *
+ * @return t_noeud*
+ */
+t_noeud* creer_noeud(t_animal animal)
+{
+    t_noeud* nouveau_noeud = (t_noeud*)malloc(sizeof(t_noeud));
+    if (nouveau_noeud == NULL)
+    {
+        printf("Erreur d'allocation de mémoire pour le noeud.\n");
+        return NULL;
+    }
+    nouveau_noeud->animal = animal;
+    nouveau_noeud->precedent = NULL;
+    nouveau_noeud->suivant = NULL;
+    return nouveau_noeud;
+}
+/**
+ * @brief Ajouter un poisson ou requin à la tête de la liste.
+ *
+ * @param liste t_liste_requins ou t_liste_poissons sont la destination du nouveau poisson ou requin.
+ * @param animal le poisson ou requin à ajouter à la liste dans t_liste.
+ */
+t_noeud* insererEnTete(t_liste** tete, t_animal animal)
+{
+    t_noeud* nouveau_noeud = creer_noeud(animal);
+    if (nouveau_noeud == NULL)
+    {
+#ifdef DEBUG
+        printf("Erreur d'allocation de mémoire pour le noeud.\n");
+#endif
+        return NULL;
+    }
+    if (*tete == NULL)
+    {
+        *tete = nouveau_noeud;
+#ifdef DEBUG
+        printf("Liste vide, Tete: %p\n", tete);
+#endif
+        return nouveau_noeud;
+    }
+    else
+    {
+        nouveau_noeud->suivant = *tete;
+        (*tete)->precedent = nouveau_noeud;
+        *tete = nouveau_noeud;
+    }
+    return nouveau_noeud;
 }
 
-// Insertion d'un ï¿½lï¿½ment ï¿½ une position donnï¿½e
-int inserer(t_liste* l, t_animal valeur, int position) {
-    if (l->taille >= MAX || position < 0 || position > l->taille) {
-        printf("Erreur : Position invalide ou liste pleine.\n");
-        return 0;
-    }
-
-    // Dï¿½calage ï¿½ droite des ï¿½lï¿½ments pour insï¿½rer la nouvelle valeur
-    for (int i = l->taille; i > position; i--) {
-        l->animal[i] = l->animal[i - 1];
-    }
-
-    l->animal[position] = valeur;
-    l->taille++;
-    return 1;
-}
-
-// Suppression d'un ï¿½lï¿½ment ï¿½ une position donnï¿½e
-int supprimer(t_liste* l, int position) {
-    if (position < 0 || position >= l->taille) {
-        printf("Erreur : Position invalide: %d\n", position);
-        return 0;
-    }
-
-    // Dï¿½calage ï¿½ gauche des ï¿½lï¿½ments pour combler le vide
-    for (int i = position; i < l->taille - 1; i++) {
-        l->animal[i] = l->animal[i + 1];
-    }
-
-    l->taille--;
-    return 1;
-}
-
-// Obtention d'un ï¿½lï¿½ment ï¿½ une position donnï¿½e
-int obtenir(t_liste* l, int position, t_animal* valeur) {
-    if (position < 0 || position >= l->taille) {
-        printf("Erreur : Position invalide.\n");
-        return 0;
-    }
-    *valeur = l->animal[position];
-    return 1;
-}
-
-// Dï¿½calage ï¿½ gauche ï¿½ partir d'une position donnï¿½e
-void decalage_gauche(t_liste* l, int position) {
-    if (position < 0 || position >= l->taille) {
-        printf("Erreur : Position invalide.\n");
+void supprimerEnTete(t_liste** liste)
+{
+    if (*liste == NULL)
+    {
+#ifdef DEBUG
+        printf("Erreur : la liste est vide.\n");
+#endif
         return;
     }
-
-    for (int i = position; i < l->taille - 1; i++) {
-        l->animal[i] = l->animal[i + 1];
+    t_noeud* noeud_a_supprimer = *liste;
+    if ((*liste)->suivant == NULL)
+    {
+        free(noeud_a_supprimer);
+        *liste = NULL;
     }
-
-    l->taille--;
+    else
+    {
+        *liste = (*liste)->suivant;
+        (*liste)->precedent = NULL;
+        free(noeud_a_supprimer);
+    }
 }
 
-// Dï¿½calage ï¿½ droite ï¿½ partir d'une position donnï¿½e
-void decalage_droite(t_liste* l, int position) {
-    if (l->taille >= MAX || position < 0 || position > l->taille) {
-        printf("Erreur : Position invalide ou liste pleine.\n");
+void supprimerAnimal(t_noeud** tete, t_noeud* animal_to_kill)
+{
+    if (animal_to_kill == NULL || *tete == NULL)
+    {
+#ifdef DEBUG
+        printf("Erreur : le noeud à supprimer est NULL.\n");
+#endif
         return;
     }
-
-    for (int i = l->taille; i > position; i--) {
-        l->animal[i] = l->animal[i - 1];
+    if ((*tete) == animal_to_kill)
+    {
+#ifdef DEBUG
+        printf("Noeud à supprimer est le premier de la liste.\n");
+#endif
+        (*tete) = animal_to_kill->suivant;
+        animal_to_kill->suivant->precedent = NULL;
+        free(animal_to_kill);
+        return;
+    }
+    if (animal_to_kill->suivant == NULL)
+    {
+#ifdef DEBUG
+        printf("Noeud à supprimer est le dernier dans la liste.\n");
+#endif
+        t_noeud* pre_noeud = animal_to_kill->precedent;
+        pre_noeud->suivant = NULL;
+    }
+    else
+    {
+        t_noeud* pre_noeud = animal_to_kill->precedent;
+        t_noeud* next_noeud = animal_to_kill->suivant;
+        pre_noeud->suivant = animal_to_kill->suivant;
+        next_noeud->precedent = animal_to_kill->precedent;
     }
 
-    l->taille++;
+
+    free(animal_to_kill);
 }
 
-// Affichage des ï¿½lï¿½ments de la liste
-void afficher_liste(const t_liste* l) {
-    if (l->taille == 0) {
-        printf("Liste vide.\n");
-        return;
+void libererListe(t_liste* liste)
+{
+    t_noeud* courant;
+    while (liste != NULL)
+    {
+        courant = liste;
+        liste = liste->suivant;
+        free(courant);
     }
+}
 
-    printf("Liste : ");
-    for (int i = 0; i < l->taille; i++) {
-        printf("%d ", l->animal[i]);
+void afficherListe(t_liste* liste)
+{
+    t_noeud* courant = liste;
+    for (int i = 0; courant != NULL; i++)
+    {
+        printf("Animal %d : Age = %d, Energie = %d, Position = (%d, %d)\n", i,
+            courant->animal.age, courant->animal.energie_sante,
+            courant->animal.posx, courant->animal.posy);
+        courant = courant->suivant;
     }
     printf("\n");
 }
+
+t_noeud* insererEnFin(t_liste** liste, t_animal animal)
+{
+    t_liste* nouveau_noeud = creer_noeud(animal);
+    if (nouveau_noeud == NULL)
+    {
+#ifdef DEBUG
+        printf("Erreur d'allocation de memoire pour le noeud.\n");
+#endif
+        return NULL;
+    }
+
+    // Cas oÃ¹ la liste est vide
+    if (*liste == NULL)
+    {
+        *liste = nouveau_noeud;
+        return nouveau_noeud;
+    }
+
+    // Parcours jusqu'au dernier Ã©lÃ©ment
+    t_liste* courant = *liste;
+    while (courant->suivant != NULL)
+    {
+        courant = courant->suivant;
+    }
+    // Ajout du nouveau nÅ“ud Ã  la fin
+    courant->suivant = nouveau_noeud;
+    nouveau_noeud->precedent = courant;
+    return nouveau_noeud;
+}
+
+t_noeud* obtenir_prochain(t_liste* liste)
+{
+    if (liste->suivant == NULL)
+    {
+        return NULL;
+    }
+    return liste->suivant;
+}
+

@@ -10,6 +10,7 @@
 
 // Déclarations des fonctions et des variables globales
 int SaisieDirection();
+int nombre_saisi();
 typedef enum {
     NULLE_INPUT = -1,
     FLECHE_HAUT,

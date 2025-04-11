@@ -22,3 +22,5 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 #D:\Session_2\INF147\INF147\TP1\build> cd build   
 #D:\Session_2\INF147\INF147\TP1\build> cmake -G "MinGW Makefiles" .. 
 #D:\Session_2\INF147\INF147\TP1\build> cmake --build .
+
+# chcp 65001
